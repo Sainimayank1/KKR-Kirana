@@ -68,7 +68,10 @@ export default function LoginScreen() {
       <StatusBar style="black" />
       {/* Upper conatiner*/}
       <View style={[{height: hp(5)}, s` p-7 flex items-center justify-center`]}>
-        {/*  npm audit fix */}
+      <Image
+          source={require("../assests/logo-no-background.png")}
+          style={{ width: wp(35), height: wp(15), objectFit: "contain" }}
+        ></Image>
       </View>
 
       {/* Down conatiner */}
