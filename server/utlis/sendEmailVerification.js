@@ -15,7 +15,7 @@ const sendEmailVerification = async (email,token) =>
             from: 'KKR Kirana"<KKR-Kirana.com>"', // sender address
             to: email, // list of receivers
             subject: "Email Verification", // Subject line
-            text: "Please click on the following link for verify your email : http://localhost:8000/verify/"+token, // plain text body  
+            text: "Please click on the following link for verify your email : https://kkr-kirana.onrender.com/verify/"+token, // plain text body  
         });
         console.log("Email send successfully")
     } 

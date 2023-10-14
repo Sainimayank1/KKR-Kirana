@@ -1,7 +1,7 @@
 import axios from "axios"
 
 
-const baseUrl = "https://flipkart-xjrh.onrender.com"
+const baseUrl = "https://kkr-kirana.onrender.com"
 export const apiCall = async (endpoint,method,data) =>
 {
     if(method == "POST")
