@@ -124,7 +124,7 @@ const RegisterScreen = () => {
                   borderColor: colors.blue,
                   borderWidth: 2,
                   borderRadius: 5,
-                },s`flex flex-row justify-between items-center `]}
+                },s`flex flex-row justify-between items-center pr-1`]}
               >
                 <TextInput
                   style={s`flex-1 mr-2 py-2 px-3`}
@@ -140,13 +140,13 @@ const RegisterScreen = () => {
                   <TouchableOpacity
                     onPress={() => setPasswordVisible(!passwordVisible)}
                   >
-                    <Feather name="eye" size={24} color="black" />
+                    <Feather name="eye" size={22} color="black" />
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
                     onPress={() => setPasswordVisible(!passwordVisible)}
                   >
-                    <Feather name="eye-off" size={24} color="black" />
+                    <Feather name="eye-off" size={22} color="black" />
                   </TouchableOpacity>
                 )}
               </View>
@@ -157,8 +157,7 @@ const RegisterScreen = () => {
             <View style={s`flex items-end justify-center pb-4`}>
               <TouchableOpacity onPress={() => navigation.navigate("Login")}>
                 <Text
-                  style={{ color: colors.blue }}
-                  style={s`font-bold text-md`}
+                  style={[{ color: colors.blue },s`font-bold text-md`]}
                 >
                   Sign in
                 </Text>
@@ -168,7 +167,8 @@ const RegisterScreen = () => {
             {/* CheckBox container */}
             <View style={s`flex flex-row space-x-2 items-center justify-center`}>
               <Checkbox
-                color={colors.blue}
+                tintColors={{true: colors.blue}}
+                onCheckColor={colors.blue}
                 style={s`rounded-sm`}
                 value={isChecked}
                 onValueChange={() => setChecked(!isChecked)}

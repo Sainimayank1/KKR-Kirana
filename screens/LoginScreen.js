@@ -36,7 +36,7 @@ export default function LoginScreen() {
     if (resp?.data?.msg == undefined) {
       Alert.alert('Message', resp);
     } else {
-      // Alert.alert("Message", resp?.data?.msg);
+      Alert.alert("Message", resp?.data?.msg);
       await AsyncStorage.setItem('authToken', resp?.data?.token);
       navigation.replace('AllScreen');
     }
@@ -123,7 +123,7 @@ export default function LoginScreen() {
                     borderWidth: 2,
                     borderRadius: 5,
                   },
-                  s`flex flex-row justify-between items-center `,
+                  s`flex flex-row justify-between items-center pr-1`,
                 ]}>
                 <TextInput
                   style={s`flex-1 mr-2  py-2 px-3`}
@@ -135,12 +135,12 @@ export default function LoginScreen() {
                 {passwordVisible ? (
                   <TouchableOpacity
                     onPress={() => setPasswordVisible(!passwordVisible)}>
-                    <Feather name="eye" size={24} color="black" />
+                    <Feather name="eye" size={22} color="black" />
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
                     onPress={() => setPasswordVisible(!passwordVisible)}>
-                    <Feather name="eye-off" size={24} color="black" />
+                    <Feather name="eye-off" size={22} color="black" />
                   </TouchableOpacity>
                 )}
               </View>
@@ -160,8 +160,9 @@ export default function LoginScreen() {
             <View
               style={s`flex flex-row space-x-2 items-center justify-center`}>
               <CheckBox
-                color={colors.blue}
-                style={s`rounded-sm`}
+                tintColors={{true: colors.blue}}
+                onCheckColor={colors.blue}
+                style={[s`rounded-sm`]}
                 value={isChecked}
                 onValueChange={() => setChecked(!isChecked)}
               />
