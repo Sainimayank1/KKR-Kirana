@@ -29,15 +29,19 @@ const CameraScreen = () => {
   }, []);
 
   if (hasCameraPermission === undefined) {
-    return <Text>Requesting permissions...</Text>
+    return <Text>Requesting permissions...</Text>;
   } else if (!hasCameraPermission) {
-    return <Text>Permission for camera not granted. Please change this in settings.</Text>
+    return (
+      <Text>
+        Permission for camera not granted. Please change this in settings.
+      </Text>
+    );
   }
   let takePic = async () => {
     let options = {
       quality: 1,
       base64: true,
-      exif: false
+      exif: false,
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
@@ -58,39 +62,31 @@ const CameraScreen = () => {
     };
 
     return (
-      <SafeAreaView style={styles.container}>
-        <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
+      <SafeAreaView className="flex-1 relative">
+        <Image
+          className="flex-1"
+          source={{ uri: "data:image/jpg;base64," + photo.base64 }}
+        />
+        <View className="flex items-center justify-around flex-row absolute w-full bottom-5">
         <Button title="Share" onPress={sharePic} />
-        {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} /> : undefined}
+        {hasMediaLibraryPermission ? (
+          <Button title="Save" onPress={savePhoto} />
+        ) : undefined}
         <Button title="Discard" onPress={() => setPhoto(undefined)} />
+        </View>
       </SafeAreaView>
     );
   }
 
   return (
-    <Camera style={styles.container} ref={cameraRef}>
-      <View style={styles.buttonContainer}>
-        <Button title="Take Pic" onPress={takePic} />
-      </View>
-      <StatusBar style="auto" />
-    </Camera>
+    <SafeAreaView className="flex-1">
+      <Camera className="flex-1 flex items-center relative" ref={cameraRef}>
+        <View className="absolute bottom-5">
+          <Button title="Take Pic" onPress={takePic} />
+        </View>
+      </Camera>
+    </SafeAreaView>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonContainer: {
-    backgroundColor: '#fff',
-    alignSelf: 'flex-end'
-  },
-  preview: {
-    alignSelf: 'stretch',
-    flex: 1
-  }
-});
+};
 
 export default CameraScreen;
