@@ -11,13 +11,13 @@ import {
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import colors from "../constants/style";
+import colors from "../../constants/style";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { StatusBar } from "expo-status-bar";
-import Camera from "../components/camera";
+import Camera from "../../components/camera";
 import axios from "axios";
 import { encode as base64 } from 'base-64';
 import { useSelector } from "react-redux";
@@ -36,7 +36,7 @@ const HomeScreen = () => {
         className="p-7 flex items-center justify-center"
       >
         <Image
-          source={require("../assests/logo-no-background.png")}
+          source={require("../../assests/logo-no-background.png")}
           style={{ width: wp(30), height: wp(15), objectFit: "contain" }}
         ></Image>
       </View>
@@ -56,7 +56,9 @@ const HomeScreen = () => {
             />
           )}
         </View>
+      <TouchableOpacity onPress={()=>navigate.push("Delivery")}><Text>Btn</Text></TouchableOpacity>
       </ScrollView>
+
     </SafeAreaView>
   );
 };

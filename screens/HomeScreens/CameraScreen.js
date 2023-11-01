@@ -12,7 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { useDispatch } from "react-redux";
-import { AddImage } from "../context/actions/action";
+import { AddImage } from "../../context/actions/action";
 import { useNavigation } from "@react-navigation/native";
 
 const CameraScreen = () => {
@@ -79,7 +79,8 @@ const CameraScreen = () => {
   return (
     <SafeAreaView className="flex-1">
       <Camera className="flex-1 flex items-center relative" ref={cameraRef}>
-        <View className="absolute bottom-5">
+        <View className="absolute bottom-5 flex items-center flex-row w-full justify-around">
+        <Button title="Go Back" onPress={()=>navigate.pop()} />
           <Button title="Take Pic" onPress={takePic} />
         </View>
       </Camera>

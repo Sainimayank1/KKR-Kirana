@@ -14,35 +14,50 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { StatusBar } from "expo-status-bar";
-import colors from "../constants/style";
+import colors from "../../constants/style";
 import Checkbox from "expo-checkbox";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { postRegister } from "../api";
+import { postLogin } from "../../api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const RegisterScreen = () => {
+const LoginScreen = () => {
   const [isChecked, setChecked] = useState(false);
-  const [value, setValue] = useState({ name: "", email: "", password: "" });
+  const [value, setValue] = useState({ email: "", password: "" });
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading , setLoading] = useState(false);
   const navigation = useNavigation();
 
+  
   const handleSubmit = async () => {
     setLoading(true);
-    const resp = await postRegister(value);
+    const resp = await postLogin(value);
     if (resp?.data?.msg == undefined) {
       Alert.alert("Message", resp);
     } else {
-      Alert.alert("Message", resp?.data?.msg);
+      // Alert.alert("Message", resp?.data?.msg);
+      await AsyncStorage.setItem("authToken", resp?.data?.token);
+      navigation.replace("AllScreen");
     }
     setLoading(false);
   };
+
+  useEffect(()=>
+  {
+    const checkUser = async() =>
+    {
+      const resp = await AsyncStorage.getItem("authToken");
+      if(resp)
+        navigation.replace("AllScreen");
+    }
+    checkUser();
+  },[])
+
   useEffect(() => {
     if (
-      value?.name?.length > 0 &&
-      value?.password?.length >= 8 &&
-      value?.email?.match(
+      value.password.length >= 8 &&
+      value.email.match(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       ) &&
       isChecked
@@ -60,7 +75,7 @@ const RegisterScreen = () => {
         className="p-7 flex items-center justify-center"
       >
         <Image
-          source={require("../assests/logo-no-background.png")}
+          source={require("../../assests/logo-no-background.png")}
           style={{ width: wp(30), height: wp(15), objectFit: "contain" }}
         ></Image>
       </View>
@@ -68,34 +83,17 @@ const RegisterScreen = () => {
       {/* Down conatiner */}
       <KeyboardAvoidingView
         style={{ height: hp(100) }}
-        className="bg-white rounded-t-xl flex-1 flex-col justify-between "
+        className="bg-white rounded-t-xl flex-1 flex-col justify-between  "
       >
         <View>
           {/* Lower upper */}
           <View className="px-4 mt-10 space-y-2">
             <Text className="text-black font-bold text-lg">
-              Register for the best experience
+              Log in for the best experience
             </Text>
             <Text className="text-gray-400 mb-6">
-              Enter your Details to continue
+              Enter your Email ID to continue
             </Text>
-
-            {/* Name TextInput Conatiner */}
-            <View className="relative pb-4">
-              <View className="absolute bg-white left-3 -top-2 z-10 px-1">
-                <Text style={{ color: colors.blue }}>Name</Text>
-              </View>
-              <TextInput
-                style={{
-                  borderColor: colors.blue,
-                  borderWidth: 2,
-                  borderRadius: 5,
-                }}
-                onChangeText={(text) => setValue({ ...value, name: text })}
-                value={value.name}
-                className="flex py-2 px-3"
-              ></TextInput>
-            </View>
 
             {/* Email TextInput Conatiner */}
             <View className="relative pb-4">
@@ -159,12 +157,12 @@ const RegisterScreen = () => {
             {/* SingUp */}
 
             <View className="flex items-end justify-center pb-4">
-              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <TouchableOpacity onPress={() => navigation.navigate("Register")}>
                 <Text
                   style={{ color: colors.blue }}
                   className="font-bold text-md"
                 >
-                  Sign in
+                  Sign up
                 </Text>
               </TouchableOpacity>
             </View>
@@ -196,7 +194,8 @@ const RegisterScreen = () => {
             className="flex items-center justify-center p-2"
             style={{ backgroundColor: btnDisabled ? "#9CA3AF" : colors.blue }}
           >
-            <Text className="text-lg text-white">{isLoading ? "Loading..." : "Continue"}</Text>
+            <Text className="text-lg text-white">{isLoading ? 
+            "Loading..." : "Continue"}</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -204,4 +203,4 @@ const RegisterScreen = () => {
   );
 };
 
-export default RegisterScreen;
+export default LoginScreen;
