@@ -6,20 +6,22 @@ import {
   SafeAreaView,
   Button,
   Image,
-  Alert
+  Alert,
 } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
-import axios from "axios";
-import { encode as base64 } from 'base-64';
+import { useDispatch } from "react-redux";
+import { AddImage } from "../context/actions/action";
+import { useNavigation } from "@react-navigation/native";
 
 const CameraScreen = () => {
   let cameraRef = useRef();
-  const [image, setImage] = useState(null);
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
+  const dispatch = useDispatch();
+  const navigate = useNavigation()
 
   useEffect(() => {
     (async () => {
@@ -52,50 +54,11 @@ const CameraScreen = () => {
   };
 
   if (photo) {
-    // let savePhoto = () => {
-    //   MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-    //     setPhoto(undefined);
-    //   });
-    // };
-
     let savePhoto = async () => {
-      const CLOUD_NAME = "dqefnr7tr";
-      const API_KEY = "885932821376173";
-      const API_SECRET = "Ivkpu1zNS9lfGYETGlY-Gncdkow";
-
-      const uploadImage = async () => {
-        const formData = new FormData();
-        formData.append("file", {
-          uri:photo.uri,
-          type: "image/jpeg",
-          name: "upload.jpg",
-        });
-        formData.append("upload_preset", "KKR-Kirana");
-
-        const apiKeySecret = `${API_KEY}:${API_SECRET}`;
-        const apiKeySecretBase64 = base64(apiKeySecret);
-        try {
-          const response = await axios.post(
-            `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-                Authorization: `Basic ${apiKeySecretBase64}`,
-              },
-            }
-          );
-
-          Alert.alert("Image uploaded!", response.data.secure_url);
-        } catch (error) {
-          console.error("Error uploading image:", error);
-        }
-      };
-
-      await uploadImage();
+      await MediaLibrary.saveToLibraryAsync(photo.uri);
+      dispatch(AddImage(photo.uri));
+      navigate.pop();
     };
-
-    console.log(photo.uri);
 
     return (
       <SafeAreaView className="flex-1 relative">

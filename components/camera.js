@@ -7,11 +7,29 @@ import {
   } from "react-native-responsive-screen";
 import colors from "../constants/style";
 import { useNavigation } from "@react-navigation/native";
+import * as ImagePicker from "expo-image-picker";
+import { useDispatch } from "react-redux";
+import { AddImage } from "../context/actions/action";
 
-const CameraComponent = () => {
+const CameraComponent = ({}) => {
   const navigate  = useNavigation();
   let cameraRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState();
+  const disptach = useDispatch();
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      disptach(AddImage(result.assets[0].uri));
+    }
+  };
+
 
   useEffect(() => {
     (async () => {
@@ -30,8 +48,9 @@ const CameraComponent = () => {
   return (
     <View className="" style={{height:hp(50) , width:wp(100)}}>
     <Camera className="flex-1 relative flex items-center" ref={cameraRef}>
-      <View className="absolute bottom-5 flex items-center">
-        <Button title="Open camera" color={colors.blue} onPress={()=>navigate.push("CameraScreen")}/>
+      <View className="absolute bottom-5 flex-1 flex flex-row justify-around w-[100%]">
+        <Button title="Open Camera" color={colors.blue} onPress={()=>navigate.push("CameraScreen")}/>
+        <Button title="Open Gallery" color={colors.blue} onPress={pickImage} />
       </View>
     </Camera>
     </View>
