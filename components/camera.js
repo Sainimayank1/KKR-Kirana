@@ -27,6 +27,7 @@ const CameraComponent = ({}) => {
 
     if (!result.canceled) {
       disptach(AddImage(result.assets[0].uri));
+      navigate.push("Select delivery Type");
     }
   };
 

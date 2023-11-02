@@ -57,8 +57,14 @@ const CameraScreen = () => {
     let savePhoto = async () => {
       await MediaLibrary.saveToLibraryAsync(photo.uri);
       dispatch(AddImage(photo.uri));
-      navigate.pop();
+      Alert.alert("","Image Save succesfully in gallery")
     };
+
+    let movetoNext = async () =>
+    {
+      dispatch(AddImage(photo.uri));
+      navigate.push("Select delivery Type");
+    }
 
     return (
       <SafeAreaView className="flex-1 relative">
@@ -67,10 +73,11 @@ const CameraScreen = () => {
           source={{ uri: "data:image/jpg;base64," + photo.base64 }}
         />
         <View className="flex items-center justify-around flex-row absolute w-full bottom-5">
+          <Button title="Discard" onPress={() => setPhoto(undefined)} />
           {hasMediaLibraryPermission ? (
             <Button title="Save" onPress={savePhoto} />
           ) : undefined}
-          <Button title="Discard" onPress={() => setPhoto(undefined)} />
+          <Button title="CONTINUE" onPress={movetoNext} />
         </View>
       </SafeAreaView>
     );
