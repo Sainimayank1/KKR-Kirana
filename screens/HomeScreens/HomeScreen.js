@@ -25,7 +25,7 @@ import { useSelector } from "react-redux";
 
 const HomeScreen = () => {
   const navigate = useNavigation();
-  const {uri} = useSelector((state) => (state.uri));
+  const {uri} = useSelector((state) => (state.reducer));
   
   return (
     <SafeAreaView className="flex-1" style={{}}>

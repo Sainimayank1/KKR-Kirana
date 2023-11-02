@@ -1,8 +1,8 @@
 import {combineReducers} from "redux"
-import uriReducer from "./reducer"
+import allReducer from "./reducer"
 
 const rootReducer = combineReducers({
-    uri:uriReducer,
+    reducer:allReducer,
 })
 
 export default rootReducer
