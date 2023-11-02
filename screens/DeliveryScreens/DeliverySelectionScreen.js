@@ -67,7 +67,6 @@ const DeliverySelectionScreen = () => {
               Home
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity></TouchableOpacity>
         </View>
       </View>
 

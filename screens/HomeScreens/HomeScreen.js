@@ -56,7 +56,7 @@ const HomeScreen = () => {
             />
           )}
         </View>
-      <TouchableOpacity onPress={()=>navigate.push("Delivery")}><Text>Btn</Text></TouchableOpacity>
+      <TouchableOpacity onPress={()=>navigate.push("Order Summary")}><Text>Btn</Text></TouchableOpacity>
       </ScrollView>
 
     </SafeAreaView>
