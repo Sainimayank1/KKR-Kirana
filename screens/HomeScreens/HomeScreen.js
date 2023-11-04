@@ -29,7 +29,7 @@ const HomeScreen = () => {
   
   return (
     <SafeAreaView className="flex-1" style={{}}>
-      <StatusBar style="black" />
+       <StatusBar color="light" backgroundColor="white"></StatusBar>
       {/* Upper conatiner*/}
       <View
         style={{ height: hp(5), backgroundColor: colors.blue }}
