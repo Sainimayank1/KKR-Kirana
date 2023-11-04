@@ -43,7 +43,7 @@ function BottomNavigation() {
             ),
         }}
       />
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Notifications"
         component={NotificationScreen}
         options={{
@@ -58,7 +58,7 @@ function BottomNavigation() {
               <Ionicons name="notifications-outline" size={22} color="black" />
             ),
         }}
-      /> */}
+      />
       <Tab.Screen
         name="Account"
         component={AccountScreen}
