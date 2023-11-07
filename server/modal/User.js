@@ -19,18 +19,6 @@ const userSchema = mongoose.Schema({
         default: false,
       },
       verificationToken: String,
-      addresses: [
-        {
-          name: String,
-          mobileNo: String,
-          houseNo: String,
-          street: String,
-          landmark: String,
-          city: String,
-          country: String,
-          postalCode: String,
-        },
-      ],
       orders: [
         {
           type: mongoose.Schema.Types.ObjectId,

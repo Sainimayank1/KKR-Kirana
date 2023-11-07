@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import colors from "../../constants/style";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -17,6 +17,15 @@ import {
 import { Feather } from "@expo/vector-icons";
 
 const AddDeliveryAddressScreen = () => {
+  const [address,setAdress] = useState({userId:"",name:"",mobileNo:"",postalCode:"",city:"",houseNo:"",landmark:"",state:""})
+
+
+
+  const submitHandler = async () =>
+  {
+      console.log(address)
+  }
+
   return (
     <View className="flex-1 relative">
       <StatusBar style="black" />
@@ -43,8 +52,8 @@ const AddDeliveryAddressScreen = () => {
                     borderWidth: 2,
                     borderRadius: 5,
                   }}
-                  // onChangeText={(text) => setValue({ ...value, email: text })}
-                  // value={value.email}
+                  onChangeText={(text) => setAdress({ ...address, name: text })}
+                  value={address.name}
                   className="flex py-2 px-3"
                 ></TextInput>
               </View>
@@ -62,8 +71,8 @@ const AddDeliveryAddressScreen = () => {
                     borderWidth: 2,
                     borderRadius: 5,
                   }}
-                  // onChangeText={(text) => setValue({ ...value, email: text })}
-                  // value={value.email}
+                  onChangeText={(text) => setAdress({ ...address, mobileNo: text })}
+                  value={address.mobileNo}
                   className="flex py-2 px-3"
                 ></TextInput>
               </View>
@@ -79,8 +88,8 @@ const AddDeliveryAddressScreen = () => {
                     borderWidth: 2,
                     borderRadius: 5,
                   }}
-                  // onChangeText={(text) => setValue({ ...value, email: text })}
-                  // value={value.email}
+                  onChangeText={(text) => setAdress({ ...address, postalCode: text })}
+                  value={address.postalCode}
                   className="flex py-2 px-3"
                 ></TextInput>
               </View>
@@ -99,11 +108,12 @@ const AddDeliveryAddressScreen = () => {
                       borderWidth: 2,
                       borderRadius: 5,
                     }}
-                    // onChangeText={(text) => setValue({ ...value, email: text })}
-                    // value={value.email}
+                    onChangeText={(text) => setAdress({ ...address, city: text })}
+                    value={address.city}
                     className="flex py-2 px-3"
                   ></TextInput>
                 </View>
+
                 <View className="relative pb-4" style={{width:wp(45)}}>
                   <View className="absolute bg-white left-3 -top-2 z-10 px-1">
                     <Text style={{ color: colors.blue }}>
@@ -116,8 +126,8 @@ const AddDeliveryAddressScreen = () => {
                       borderWidth: 2,
                       borderRadius: 5,
                     }}
-                    // onChangeText={(text) => setValue({ ...value, email: text })}
-                    // value={value.email}
+                    onChangeText={(text) => setAdress({ ...address, state: text })}
+                    value={address.state}
                     className="flex py-2 px-3"
                   ></TextInput>
                 </View>
@@ -134,8 +144,8 @@ const AddDeliveryAddressScreen = () => {
                     borderWidth: 2,
                     borderRadius: 5,
                   }}
-                  // onChangeText={(text) => setValue({ ...value, email: text })}
-                  // value={value.email}
+                  onChangeText={(text) => setAdress({ ...address, houseNo: text })}
+                  value={address.houseNo}
                   className="flex py-2 px-3"
                 ></TextInput>
               </View>
@@ -151,8 +161,8 @@ const AddDeliveryAddressScreen = () => {
                     borderWidth: 2,
                     borderRadius: 5,
                   }}
-                  // onChangeText={(text) => setValue({ ...value, email: text })}
-                  // value={value.email}
+                  onChangeText={(text) => setAdress({ ...address, landmark: text })}
+                  value={address.landmark}
                   className="flex py-2 px-3"
                 ></TextInput>
               </View>
@@ -164,7 +174,7 @@ const AddDeliveryAddressScreen = () => {
       {/* Submit Btn conatiner */}
       <View className="border border-neutral-300 p-2 bottom-0 absolute w-full">
         <TouchableOpacity
-          // onPress={handleSubmit}
+          onPress={submitHandler}
           // disabled={(btnDisabled || isLoading)}
           className="flex items-center justify-center p-2"
           style={{ backgroundColor: colors.orange }}

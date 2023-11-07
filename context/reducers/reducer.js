@@ -1,6 +1,7 @@
 const initialState = {
   uri: "",
-  deliveryType:""
+  deliveryType: "",
+  cart: [],
 };
 
 const allReducer = (state = initialState, action) => {
@@ -12,10 +13,20 @@ const allReducer = (state = initialState, action) => {
       return { ...state, uri: "" };
 
     case "ADD_DELIVERY_TYPE":
-        return { ...state, deliveryType: action.payload };
-    
+      return { ...state, deliveryType: action.payload };
+
     case "REMOVE_DELIVERY_TYPE":
-          return { ...state, deliveryType:""  };
+      return { ...state, deliveryType: "" };
+
+    case "ADD_TO_CART":
+      return () => {
+        const isHave = state.cart.find((item) => item.id === action.payload.id);
+        if (isHave) {
+          isHave.quantity++;
+        } else {
+          state.cart.push({ ...action.payload, quantity: 1 });
+        }
+      }
 
     default:
       return state;

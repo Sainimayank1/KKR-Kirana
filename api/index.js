@@ -1,6 +1,5 @@
 import axios from "axios";
 import { encode as base64 } from "base-64";
-import { useSelector } from "react-redux";
 
 // Keys
 const baseUrl = "https://kkr-kirana.onrender.com";
@@ -26,9 +25,7 @@ export const apiCall = async (endpoint, method, data) => {
   }
 };
 
-export const sendImage = async () => {
-
-  const {uri} = useSelector((state) => (state.uri));
+export const sendImage = async (uri) => {
   const formData = new FormData();
   formData.append("file", {
     uri,
@@ -51,9 +48,9 @@ export const sendImage = async () => {
       }
     );
 
-    return {msg:"Image uploaded!", url:response.data.secure_url,code:200}
+    return {title:"Success",msg:"Image uploaded!", url:response.data.secure_url,code:200}
   } catch (error) {
-    return {msg : "Error uploading image:",error,code:400};
+    return {title:"Error",msg : "Something went wrong during image uploading",error,code:400};
   }
 };
 

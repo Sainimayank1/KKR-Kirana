@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
-import React from "react";
+import { View, Text, TouchableOpacity, Image, ScrollView, Button, Alert } from "react-native";
+import React, { useState } from "react";
 import { Entypo } from "@expo/vector-icons";
 import colors from "../../constants/style";
 import { useSelector } from "react-redux";
@@ -7,9 +7,40 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { sendImage } from "../../api"
 
 const OrederSummaryScreen = () => {
   const state = useSelector((state) => state.reducer);
+  const [loading, setLoading] = useState(false);
+  const [user,setUser] = useState(null);
+
+  const getItem = async () => {
+    const token = await AsyncStorage.getItem("authToken");
+    const data = JWT.decode(token,"heymynameismayank!");
+    setUser(data.userId);
+  };
+
+  getItem();
+
+  const uploadHandler = async () => {
+    setLoading(true);
+    const data = await sendImage(state.uri);
+    console.log(data)
+
+    if(data.code == 400)
+    {
+        Alert.alert(data.title,data.msg);
+    }
+    else{
+      
+      
+
+    } 
+    setLoading(false);
+  }
+
+
+
   return (
     <View className="flex-1 bg-white relative pt-5">
       <ScrollView>
@@ -79,15 +110,16 @@ const OrederSummaryScreen = () => {
       {/* Continue Btn */}
 
       <TouchableOpacity
+        onPress={uploadHandler}
         className="absolute bottom-0 w-full p-4 flex items-center justify-center"
         style={{ backgroundColor: colors.orange }}
       >
         <View>
-          <Text className="text-lg text-white font-bold">Continue..</Text>
+          <Text className="text-lg text-white font-bold">{loading ? "Loading.." : "Continue.."}</Text>
         </View>
       </TouchableOpacity>
     </View>
-  );
+      );
 };
 
-export default OrederSummaryScreen;
+      export default OrederSummaryScreen;
