@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import colors from "../../constants/style";
@@ -15,15 +16,30 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Feather } from "@expo/vector-icons";
+import JWT from 'expo-jwt';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { addAdress } from "../../api";
 
 const AddDeliveryAddressScreen = () => {
-  const [address,setAdress] = useState({userId:"",name:"",mobileNo:"",postalCode:"",city:"",houseNo:"",landmark:"",state:""})
+  const [address,setAdress] = useState({userId:null,name:"",mobileNo:"",postalCode:"",city:"",houseNo:"",landmark:"",state:""})
+  const [Loading,setLoading] = useState(false);
+  const getItem = async () => {
+    const token = await AsyncStorage.getItem("authToken");
+    const data = JWT.decode(token,"heymynameismayank!");
+    setAdress({...address , userId:data.userId._id});
+  };
 
+  getItem();
 
 
   const submitHandler = async () =>
   {
-      console.log(address)
+      setLoading(true);
+      const data = await addAdress(address);
+
+      if(data.status == 200)
+        Alert.alert("Success",data.data.msg)
+      setLoading(false);
   }
 
   return (
@@ -179,9 +195,8 @@ const AddDeliveryAddressScreen = () => {
           className="flex items-center justify-center p-2"
           style={{ backgroundColor: colors.orange }}
         >
-          {/* <Text className="text-lg text-white">{isLoading ? 
-            "Loading..." : "Continue"}</Text> */}
-          <Text className="text-lg text-white">Save Address</Text>
+          <Text className="text-lg text-white">{Loading ? 
+            "Loading..." : "Save Address"}</Text>
         </TouchableOpacity>
       </View>
     </View>

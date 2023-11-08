@@ -63,3 +63,13 @@ export const postRegister = async (data) => {
   const endPoint = baseUrl + "/register";
   return await apiCall(endPoint, "POST", data);
 };
+
+export const addAdress = async (data) => {
+  const endPoint = baseUrl + "/addAddress";
+  return await apiCall(endPoint, "POST", data);
+};
+
+export const fetchAddress = async (data) => {
+  const endPoint = baseUrl + "/addressFetcher";
+  return await apiCall(endPoint, "POST", data);
+};

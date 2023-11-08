@@ -105,7 +105,6 @@ app.post("/buyProduct", async (req, res) => {
 // Add Address
 app.post("/addAddress", async (req, res) => {
     const data = req.body;
-    console.log(data)
     try {
         const isSave = await Address.create(data);
         if (isSave)
@@ -115,6 +114,17 @@ app.post("/addAddress", async (req, res) => {
     }
 })
 
+
+app.post("/addressFetcher", async (req, res) => {
+    const data = req.body;
+    try {
+        const isFind = await Address.find({userId:data.userId});
+        if (isFind)
+            return res.status(200).json({ msg: "fetch address successfully" , data:isFind})
+    } catch (error) {
+        return res.status(500).json({ msg: error })
+    }
+})
 
 app.listen(8000, () => {
     console.log("Server Listning on Port:8000")
