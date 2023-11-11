@@ -110,7 +110,8 @@ const RegisterScreen = () => {
                   borderWidth: 2,
                   borderRadius: 5,
                 }}
-                onChangeText={(text) => setValue({ ...value, email: text })}
+                keyboardType="number-pad"
+                onChangeText={(text) => setValue({ ...value, phone: text })}
                 value={value.phone}
                 className="flex py-2 px-3"
               ></TextInput>

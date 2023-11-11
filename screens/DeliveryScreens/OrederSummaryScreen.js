@@ -35,7 +35,7 @@ const OrederSummaryScreen = () => {
         Alert.alert(data.title,data.msg);
     }
     else{
-      const val = {userName:user.name,phoneNumber:user.email,user:user._id,imageUri:data.url,deliveryMethod:state.deliveryType};
+      const val = {userName:user.name,phoneNumber:user.phone,user:user._id,imageUri:data.url,deliveryMethod:state.deliveryType};
       const resp = await orderByImage(val);
       if(!!resp?.data?.msg)
       {

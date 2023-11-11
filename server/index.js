@@ -130,11 +130,21 @@ app.post("/addressFetcher", async (req, res) => {
 // Order by Image
 app.post("/orderByImage", async (req, res) => {
     const data = req.body;
-    console.log(data)
     try {
         const isCreate = await Order.create(data);
         if (isCreate)
             return res.status(200).json({ msg: "Order Created successfully" , data:isCreate})
+    } catch (error) {
+        return res.status(500).json({ msg: error })
+    }
+})
+
+// Fetching all orders
+app.get("/getAllOrder", async (req, res) => {
+    try {
+        const isFind = await Order.find();
+        if (isFind)
+            return res.status(200).json({ msg: "All Order" , data:isFind})
     } catch (error) {
         return res.status(500).json({ msg: error })
     }

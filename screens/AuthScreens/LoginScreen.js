@@ -26,33 +26,44 @@ const LoginScreen = () => {
   const [value, setValue] = useState({ email: "", password: "" });
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
-  const [isLoading , setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const navigation = useNavigation();
 
-  
+
   const handleSubmit = async () => {
     setLoading(true);
-    const resp = await postLogin(value);
-    if (resp?.data?.msg == undefined) {
-      Alert.alert("Message", resp);
-    } else {
-      // Alert.alert("Message", resp?.data?.msg);
-      await AsyncStorage.setItem("authToken", resp?.data?.token);
-      navigation.replace("AllScreen");
+    let resp;
+    if (value.email.match("@admin.com")) {
+      resp = await postLogin(value);
+      if (resp?.data?.msg == undefined) {
+        Alert.alert("Message", resp);
+      } else {
+        await AsyncStorage.setItem("authToken", resp?.data?.token);
+        navigation.replace("AdminStackNavigation");
+      }
+
+    }
+    else {
+      resp = await postLogin(value);
+      if (resp?.data?.msg == undefined) {
+        Alert.alert("Message", resp);
+      } else {
+        // Alert.alert("Message", resp?.data?.msg);
+        await AsyncStorage.setItem("authToken", resp?.data?.token);
+        navigation.replace("AllScreen");
+      }
     }
     setLoading(false);
   };
 
-  useEffect(()=>
-  {
-    const checkUser = async() =>
-    {
+  useEffect(() => {
+    const checkUser = async () => {
       const resp = await AsyncStorage.getItem("authToken");
-      if(resp)
-        navigation.replace("AllScreen");
+      if (resp)
+        navigation.replace("AdminStackNavigation");
     }
     checkUser();
-  },[])
+  }, [])
 
   useEffect(() => {
     if (
@@ -194,8 +205,8 @@ const LoginScreen = () => {
             className="flex items-center justify-center p-2"
             style={{ backgroundColor: btnDisabled ? "#9CA3AF" : colors.blue }}
           >
-            <Text className="text-lg text-white">{isLoading ? 
-            "Loading..." : "Continue"}</Text>
+            <Text className="text-lg text-white">{isLoading ?
+              "Loading..." : "Continue"}</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

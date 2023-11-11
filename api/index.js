@@ -7,7 +7,7 @@ const CLOUD_NAME = "dqefnr7tr";
 const API_KEY = "885932821376173";
 const API_SECRET = "Ivkpu1zNS9lfGYETGlY-Gncdkow";
 
-export const apiCall = async (endpoint, method, data) => {
+export const apiCall = async (endpoint, method, data="") => {
   if (method == "POST") {
     try {
       const resp = await axios.post(endpoint, data);
@@ -18,9 +18,9 @@ export const apiCall = async (endpoint, method, data) => {
   } else {
     try {
       const resp = axios.get(endpoint);
-      console.log(resp);
+      return resp;
     } catch (error) {
-      console.log(error);
+      return error.response.data.msg;
     }
   }
 };
@@ -77,4 +77,9 @@ export const fetchAddress = async (data) => {
 export const orderByImage = async (data) => {
   const endPoint = baseUrl + "/orderByImage";
   return await apiCall(endPoint, "POST", data);
+};
+
+export const fetchAllOrders = async () => {
+  const endPoint = baseUrl + "/getAllOrder";
+  return await apiCall(endPoint, "GET");
 };
