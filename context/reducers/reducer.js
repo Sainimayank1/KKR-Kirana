@@ -2,6 +2,7 @@ const initialState = {
   uri: "",
   deliveryType: "",
   cart: [],
+  deliveryAddressId: ""
 };
 
 const allReducer = (state = initialState, action) => {
@@ -17,6 +18,12 @@ const allReducer = (state = initialState, action) => {
 
     case "REMOVE_DELIVERY_TYPE":
       return { ...state, deliveryType: "" };
+
+    case "ADD_DELIVERY_ADDRESS":
+      return { ...state, deliveryAddressId: action.payload };
+
+    case "REMOVE_DELIVERY_ADDRESS_ID":
+      return { ...state, deliveryAddressId: "" };
 
     case "ADD_TO_CART":
       return () => {

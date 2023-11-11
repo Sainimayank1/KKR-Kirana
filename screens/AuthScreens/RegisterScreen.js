@@ -22,7 +22,7 @@ import { postRegister } from "../../api";
 
 const RegisterScreen = () => {
   const [isChecked, setChecked] = useState(false);
-  const [value, setValue] = useState({ name: "", email: "", password: "" });
+  const [value, setValue] = useState({ name: "", email: "", password: "", phone:"" });
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [isLoading, setLoading] = useState(false);
@@ -38,6 +38,7 @@ const RegisterScreen = () => {
     }
     setLoading(false);
   };
+
   useEffect(() => {
     if (
       value?.name?.length > 0 &&
@@ -97,6 +98,24 @@ const RegisterScreen = () => {
               ></TextInput>
             </View>
 
+            {/* Phone TextInput Conatiner */}
+             {/* Email TextInput Conatiner */}
+             <View className="relative pb-4">
+              <View className="absolute bg-white left-3 -top-2 z-10 px-1">
+                <Text style={{ color: colors.blue }}>Mobile No</Text>
+              </View>
+              <TextInput
+                style={{
+                  borderColor: colors.blue,
+                  borderWidth: 2,
+                  borderRadius: 5,
+                }}
+                onChangeText={(text) => setValue({ ...value, email: text })}
+                value={value.phone}
+                className="flex py-2 px-3"
+              ></TextInput>
+            </View>
+
             {/* Email TextInput Conatiner */}
             <View className="relative pb-4">
               <View className="absolute bg-white left-3 -top-2 z-10 px-1">
@@ -113,6 +132,8 @@ const RegisterScreen = () => {
                 className="flex py-2 px-3"
               ></TextInput>
             </View>
+
+
 
             {/* Password TextInput Conatiner */}
             <View className="relative ">

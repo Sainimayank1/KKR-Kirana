@@ -7,12 +7,16 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { sendImage } from "../../api"
+import { orderByImage, sendImage } from "../../api"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import JWT from 'expo-jwt';
+import { useNavigation } from "@react-navigation/native";
 
 const OrederSummaryScreen = () => {
   const state = useSelector((state) => state.reducer);
   const [loading, setLoading] = useState(false);
   const [user,setUser] = useState(null);
+  const navigate = useNavigation();
 
   const getItem = async () => {
     const token = await AsyncStorage.getItem("authToken");
@@ -25,16 +29,21 @@ const OrederSummaryScreen = () => {
   const uploadHandler = async () => {
     setLoading(true);
     const data = await sendImage(state.uri);
-    console.log(data)
 
     if(data.code == 400)
     {
         Alert.alert(data.title,data.msg);
     }
     else{
-      
-      
-
+      const val = {userName:user.name,phoneNumber:user.email,user:user._id,imageUri:data.url,deliveryMethod:state.deliveryType};
+      const resp = await orderByImage(val);
+      if(!!resp?.data?.msg)
+      {
+        Alert.alert("Success",resp.data.msg);
+        navigate.navigate("Home");
+      } 
+      else 
+        Alert.alert("Error",resp);
     } 
     setLoading(false);
   }

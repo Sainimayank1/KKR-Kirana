@@ -73,3 +73,8 @@ export const fetchAddress = async (data) => {
   const endPoint = baseUrl + "/addressFetcher";
   return await apiCall(endPoint, "POST", data);
 };
+
+export const orderByImage = async (data) => {
+  const endPoint = baseUrl + "/orderByImage";
+  return await apiCall(endPoint, "POST", data);
+};

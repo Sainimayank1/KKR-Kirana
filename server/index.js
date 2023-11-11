@@ -9,6 +9,7 @@ import sendEmailVerification from "./utlis/sendEmailVerification.js"
 import jwt from "jsonwebtoken"
 import Product from "./modal/Product.js"
 import Address from "./modal/Address.js"
+import Order from "./modal/Order.js"
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -40,13 +41,13 @@ app.post("/login", async (req, res) => {
 })
 
 app.post("/register", async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password , phone} = req.body;
     try {
         const isUser = await User.findOne({ email });
         if (isUser)
             res.status(500).json({ msg: "User already exist" });
         else {
-            const user = User({ name, email, password });
+            const user = User({ name, email, password ,phone});
             user.verificationToken = crypto.randomBytes(20).toString("hex");
             await user.save();
             sendEmailVerification(email, user.verificationToken);
@@ -62,7 +63,6 @@ app.post("/register", async (req, res) => {
 
 app.get("/verify/:token", async (req, res) => {
     const params = req.params.token;
-    console.log(params)
     try {
         const isUser = await User.findOne({ verificationToken: params });
         if (isUser) {
@@ -115,12 +115,26 @@ app.post("/addAddress", async (req, res) => {
 })
 
 
+// Address Fetcher
 app.post("/addressFetcher", async (req, res) => {
     const data = req.body;
     try {
         const isFind = await Address.find({userId:data.userId});
         if (isFind)
             return res.status(200).json({ msg: "fetch address successfully" , data:isFind})
+    } catch (error) {
+        return res.status(500).json({ msg: error })
+    }
+})
+
+// Order by Image
+app.post("/orderByImage", async (req, res) => {
+    const data = req.body;
+    console.log(data)
+    try {
+        const isCreate = await Order.create(data);
+        if (isCreate)
+            return res.status(200).json({ msg: "Order Created successfully" , data:isCreate})
     } catch (error) {
         return res.status(500).json({ msg: error })
     }
