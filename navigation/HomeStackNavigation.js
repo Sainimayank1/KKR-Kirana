@@ -7,7 +7,7 @@ import OrederSummaryScreen from "../screens/DeliveryScreens/OrederSummaryScreen.
 import AddDeliveryAddressScreen from "../screens/DeliveryScreens/AddDeliveryAddressScreen.js";
 import DeliverySelectionScreen from "../screens/DeliveryScreens/DeliverySelectionScreen.js";
 import ProductScreen from "../screens/ProductScreen.js";
-import AdminScreen from "../screens/Admin/AdminScreen.js"
+import AdminBottomNavigation from "./AdminBottomNavigation.js";
 
 const HomeStackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -18,7 +18,7 @@ const HomeStackNavigation = () => {
     >
       <Stack.Screen name="Main" component={BottomNavigation} options={{ headerShown: false }} />
       {/* <Stack.Screen name="ProductDetail" component={ProductScreen} /> */}
-      <Stack.Screen name="AdminScreen" component={AdminScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="AdminScreen" component={AdminBottomNavigation} options={{ headerShown: false }} />
       <Stack.Screen name="CameraScreen" component={CameraScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="Delivery" component={DeliveryAdressScreen} />
       <Stack.Screen name="Add delivery address" component={AddDeliveryAddressScreen} />

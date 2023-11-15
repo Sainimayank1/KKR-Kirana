@@ -5,8 +5,9 @@ import {
   ScrollView,
   Pressable,
   Image,
+  ActivityIndicator,
 } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import colors from "../constants/style";
@@ -15,50 +16,28 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { FetchCategoryItems } from "../api";
 
 const CategoryScreen = () => {
-  const productsCatgory = [
-    {
-      uri: require("../assests/image/CatCarasoul/appliances.webp"),
-      name: "Appliances",
-      index: 1,
-    },
-    {
-      uri: require("../assests/image/CatCarasoul/electronics.webp"),
-      name: "Electronics",
-      index: 2,
-    },
-    {
-      uri: require("../assests/image/CatCarasoul/fashion.webp"),
-      name: "Fashion",
-      index: 3,
-    },
-    {
-      uri: require("../assests/image/CatCarasoul/grocery.webp"),
-      name: "Grocery",
-      index: 4,
-    },
-    {
-      uri: require("../assests/image/CatCarasoul/mobile.webp"),
-      name: "Mobiles",
-      index: 6,
-    },
-    {
-      uri: require("../assests/image/CatCarasoul/toys.webp"),
-      name: "Toys",
-      index: 7,
-    },
-    {
-      uri: require("../assests/image/CatCarasoul/travel.webp"),
-      name: "Travel",
-      index: 8,
-    },
-    {
-      uri: require("../assests/image/CatCarasoul/twoWheeler.webp"),
-      name: "Two Wheeler",
-      index: 9,
-    },
-  ];
+  const [Catgory, setCategory] = useState({ productsCatgory: [], productsCatgoryLoader: false });
+
+
+  useEffect(() => {
+    fetchCategory();
+  }, [])
+
+
+  const fetchCategory = async () => {
+    setCategory({ ...Catgory, productsCatgoryLoader: true });
+    const data = await FetchCategoryItems();
+    if (data?.data?.data != undefined) {
+      setCategory({ ...Catgory, productsCatgory: data.data.data });
+    }
+    else {
+      Alert.alert("Error", data);
+    }
+    // setCategory({ ...Catgory, productsCatgoryLoader: false });
+  }
 
   const RecentlyViewStore = [
     {
@@ -146,36 +125,42 @@ const CategoryScreen = () => {
         className="flex-1 h-full bg-white"
       >
         {/* Product conatiner */}
-        <View className="flex-1 flex flex-row flex-wrap justify-center">
-          {/* Product map */}
-          {productsCatgory.map((item, index) => {
-            return (
-              <Pressable
-                key={index}
-                className="items-center justify-center "
-                style={{ height: wp(28), width: wp(25) }}
-              >
-                <Image
-                  className="h-[60%] w-[70%] rounded-full bg-blue-100 object-contain "
-                  style={{ objectFit: "contain" }}
-                  source={item.uri}
-                ></Image>
-                <Text className=" w-full text-center text-md">
-                  {item?.name?.length >= 10
-                    ? item?.name?.slice(0, 9) + " .."
-                    : item.name}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </View>
+        {
+          Catgory.productsCatgoryLoader ?
+            <View className="h-full p-10">
+              <ActivityIndicator size="large" color={colors.blue}></ActivityIndicator>
+            </View> :
+            <View className="flex-1 flex flex-row flex-wrap justify-center">
+              {/* Product map */}
+              {Catgory.productsCatgory.map((item, index) => {
+                return (
+                  <Pressable
+                    key={index}
+                    className="items-center justify-center "
+                    style={{ height: wp(28), width: wp(25) }}
+                  >
+                    <Image
+                      className="h-[60%] w-[70%] rounded-full bg-blue-100 object-contain "
+                      style={{ objectFit: "contain" }}
+                      source={{ uri: item.uri }}
+                    ></Image>
+                    <Text className=" w-full text-center text-md">
+                      {item?.name?.length >= 10
+                        ? item?.name?.slice(0, 9) + " .."
+                        : item.name}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+        }
 
-        {/* More on Flipkart */}
-        <View className="p-2">
+        {/* More on KKR Kirana */}
+        {/* <View className="p-2">
           <Text className="text-md font-extrabold pb-3">More on Flipkart</Text>
           <View className="flex-1 flex flex-row flex-wrap justify-center">
             {/* Product map */}
-            {productsCatgory.map((item, index) => {
+        {/* {productsCatgory.map((item, index) => {
               return (
                 <Pressable
                   key={index}
@@ -193,10 +178,10 @@ const CategoryScreen = () => {
                       : item.name}
                   </Text>
                 </Pressable>
-              );
-            })}
+              ); */}
+        {/* })}
           </View>
-        </View>
+        </View> */}
 
         {/* Recently View Store */}
         <View className="p-2">

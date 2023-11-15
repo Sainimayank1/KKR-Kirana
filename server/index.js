@@ -10,6 +10,7 @@ import jwt from "jsonwebtoken"
 import Product from "./modal/Product.js"
 import Address from "./modal/Address.js"
 import Order from "./modal/Order.js"
+import Category from "./modal/Category.js"
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -145,6 +146,43 @@ app.get("/getAllOrder", async (req, res) => {
         const isFind = await Order.find();
         if (isFind)
             return res.status(200).json({ msg: "All Order" , data:isFind})
+    } catch (error) {
+        return res.status(500).json({ msg: error })
+    }
+})
+
+
+// Adding items in category section
+app.post("/addCategoryItems", async (req, res) => {
+    const data = req.body;
+    try {
+        const isCreate = await Category.create(data);
+        if (isCreate)
+            return res.status(200).json({ msg: "Item Added successfully" , data:isCreate})
+    } catch (error) {
+        return res.status(500).json({ msg: error })
+    }
+})
+
+
+//  Fetching all the category data 
+app.get("/fetchAllCategory", async (req, res) => {
+    try {
+        const isFind = await Category.find();
+        if (isFind)
+            return res.status(200).json({ msg: "All Items" , data:isFind})
+    } catch (error) {
+        return res.status(500).json({ msg: error })
+    }
+})
+
+// Delete category item using id
+app.post("/deleteCategoryItem", async (req, res) => {
+    const data = req.body;
+    try {
+        const isDelete = await Category.deleteOne(data);
+        if (isDelete)
+            return res.status(200).json({ msg: "Item Delete successfully" , data:isDelete})
     } catch (error) {
         return res.status(500).json({ msg: error })
     }

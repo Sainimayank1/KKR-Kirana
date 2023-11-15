@@ -202,7 +202,7 @@ const RegisterScreen = () => {
 
               {/* CHeckBox content */}
               <Text className="text-gray-400 ">
-                By continue, you agree to Flipkart's{" "}
+                By continue, you agree to KKR Kirana{" "}
                 <Text style={{ color: colors.blue }}>Terms of Use</Text> and{" "}
                 <Text style={{ color: colors.blue }}>Privacy Policy</Text>
               </Text>

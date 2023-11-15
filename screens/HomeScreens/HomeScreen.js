@@ -8,9 +8,10 @@ import {
   Image,
   ScrollView,
   Alert,
+  ActivityIndicator,
   TextInput,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../constants/style";
@@ -26,55 +27,34 @@ import Card3By2 from "../../components/Card3By2";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import { FetchCategoryItems } from "../../api";
 
 
 const HomeScreen = () => {
   const navigate = useNavigation();
   const { uri } = useSelector((state) => (state.reducer));
+  const [Catgory, setCategory] = useState({ productsCatgory: [], productsCatgoryLoader: false });
 
 
-  const productsCatgory = [
-    {
-      uri: require("../../assests/image/CatCarasoul/appliances.webp"),
-      name: "Appliances",
-      index: 1,
-    },
-    {
-      uri: require("../../assests/image/CatCarasoul/electronics.webp"),
-      name: "Electronics",
-      index: 2,
-    },
-    {
-      uri: require("../../assests/image/CatCarasoul/fashion.webp"),
-      name: "Fashion",
-      index: 3,
-    },
-    {
-      uri: require("../../assests/image/CatCarasoul/grocery.webp"),
-      name: "Grocery",
-      index: 4,
-    },
-    {
-      uri: require("../../assests/image/CatCarasoul/mobile.webp"),
-      name: "Mobiles",
-      index: 6,
-    },
-    {
-      uri: require("../../assests/image/CatCarasoul/toys.webp"),
-      name: "Toys",
-      index: 7,
-    },
-    {
-      uri: require("../../assests/image/CatCarasoul/travel.webp"),
-      name: "Travel",
-      index: 8,
-    },
-    {
-      uri: require("../../assests/image/CatCarasoul/twoWheeler.webp"),
-      name: "Two Wheeler",
-      index: 9,
-    },
-  ];
+  useEffect(() => {
+    fetchCategory();
+  }, [])
+
+
+  const fetchCategory = async () => {
+    setCategory({ ...Catgory, productsCatgoryLoader: true });
+    const data = await FetchCategoryItems();
+    if (data?.data?.data != undefined) {
+      setCategory({ ...Catgory, productsCatgory: data.data.data });
+    }
+    else {
+      Alert.alert("Error", data);
+    }
+    // setCategory({ ...Catgory, productsCatgoryLoader: false });
+  }
+
+
+
 
   const todayDeal = [
     {
@@ -301,6 +281,7 @@ const HomeScreen = () => {
     },
   ];
 
+
   return (
     <SafeAreaView className="flex-1" style={{}}>
       <StatusBar color="light" backgroundColor="white"></StatusBar>
@@ -318,8 +299,8 @@ const HomeScreen = () => {
       {/* Scrool Container */}
       <ScrollView>
 
-      {/* Search Coantiner */}
-      <View className="flex-row items-center justify-between px-2 py-1 space-x-5">
+        {/* Search Coantiner */}
+        <View className="flex-row items-center justify-between px-2 py-1 space-x-5">
           {/*Search Area*/}
           <View className="flex-1 flex flex-row space-x-2 items-center justify-between border border-gray-300 bg-neutral-100 p-1 rounded-md">
             <View className="flex flex-row space-x-2 items-center">
@@ -343,31 +324,38 @@ const HomeScreen = () => {
         <Camera></Camera>
 
         {/* Catogry scrollview */}
-        <ScrollView
-          showsHorizontalScrollIndicator={false}
-          horizontal
-          className="mt-2 flex-1 flex-wrap flex-row  h-full "
-        >
-          {productsCatgory.map((item, index) => {
-            return (
-              <Pressable
-                key={index}
-                className="items-center justify-center  h-full "
-                style={{ height: wp(25), width: wp(20) }}
-              >
-                <Image
-                  className="h-[50%] w-[65%] rounded-full bg-blue-100 object-contain "
-                  source={item.uri}
-                ></Image>
-                <Text className="font-bold w-full text-center text-[10px]">
-                  {item?.name?.length >= 8
-                    ? item?.name?.slice(0, 6) + " .."
-                    : item.name}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </ScrollView>
+        {
+          Catgory.productsCatgoryLoader ?
+            <View className="p-10">
+              <ActivityIndicator size="large" color={colors.blue} />
+            </View> :
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              horizontal
+              className="mt-2 flex-1 flex-wrap flex-row  h-full"
+
+            >
+              {Catgory.productsCatgory.map((item, index) =>
+              {
+                return (<Pressable
+                  key={index}
+                  className="items-center justify-center  h-full"
+                  style={{ height: wp(25), width: wp(20) }}
+                >
+                  <Image
+                    className="h-[50%] w-[65%] rounded-full bg-blue-100 object-contain "
+                    source={{ uri: item.uri }}
+                  ></Image>
+                  <Text className="font-bold w-full text-center text-[10px]">
+                    {item?.name?.length >= 8
+                      ? item?.name?.slice(0, 6) + " .."
+                      : item.name}
+                  </Text>
+                </Pressable>);
+              }
+              )}
+            </ScrollView>
+        }
 
         {/* Today Deal Container */}
         <View className="flex flex-wrap items-center flex-row justify-around">

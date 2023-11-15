@@ -6,21 +6,22 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import colors from '../../constants/style';
 import { useNavigation } from '@react-navigation/native';
 import { fetchAllOrders } from '../../api';
+import Navbar from '../../components/Admin/Navbar';
 
 
-const AdminScreen = () => {
-  const [user, setUser] = useState(null);
+const ProductScreen = () => {
+  const [user, setUser] = useState({name:""});
   const [loading, setLoading] = useState(false);
-  const [orders, setOrders] = useState([]);
+  const [products, setProducts] = useState([]);
   const navigate = useNavigation();
 
 
 
-  const fetchOrders = async () => {
+  const fetchProducts = async () => {
     setLoading(true);
     const data = await fetchAllOrders();
     if (data?.data?.data != undefined) {
-      setOrders(data.data.data);
+      setProducts(data.data.data);
     }
     else {
       Alert.alert("Error", data);
@@ -33,30 +34,21 @@ const AdminScreen = () => {
     const getItem = async () => {
       const token = await AsyncStorage.getItem("authToken");
       const data = JWT.decode(token, "heymynameismayank!");
-      setUser(data.userId);
-      await fetchOrders();
+      setUser({...user,...data.userId});
+      await fetchProducts();
     };
     getItem();
   }, [])
 
 
 
-  const logout = async () => {
-    await AsyncStorage.clear();
-    navigate.replace("Login")
-  }
+  
 
 
   return (
     <SafeAreaView className="flex-1 relative">
       {/* Header */}
-      <View className="w-full flex flex-row justify-between items-center p-5" style={{ backgroundColor: colors.blue }}>
-        <Text className="text-lg ml-5 text-white">Admin Pannel</Text>
-        <View className="flex flex-row items-center">
-          {/* <Text className="text-md ml-5 text-white">Hello {user.name}</Text> */}
-          <TouchableOpacity onPress={logout}><Text className="text-md ml-5 font-bold text-red-600">Logout</Text></TouchableOpacity>
-        </View>
-      </View>
+      <Navbar user={user} />
 
 
       {/* Down Conatiner */}
@@ -68,7 +60,7 @@ const AdminScreen = () => {
           :
           <ScrollView className="flex-1">
             {
-                orders.map((item,key)=>
+                products.map((item,key)=>
                 {
                   return <View key={key} className="w-full"></View>
                 })
@@ -79,4 +71,4 @@ const AdminScreen = () => {
   )
 }
 
-export default AdminScreen
+export default ProductScreen

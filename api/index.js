@@ -7,7 +7,7 @@ const CLOUD_NAME = "dqefnr7tr";
 const API_KEY = "885932821376173";
 const API_SECRET = "Ivkpu1zNS9lfGYETGlY-Gncdkow";
 
-export const apiCall = async (endpoint, method, data="") => {
+export const apiCall = async (endpoint, method, data) => {
   if (method == "POST") {
     try {
       const resp = await axios.post(endpoint, data);
@@ -82,4 +82,19 @@ export const orderByImage = async (data) => {
 export const fetchAllOrders = async () => {
   const endPoint = baseUrl + "/getAllOrder";
   return await apiCall(endPoint, "GET");
+};
+
+export const AddItemInCategory = async (data) => {
+  const endPoint = baseUrl + "/addCategoryItems";
+  return await apiCall(endPoint, "POST" , data);
+};
+
+export const FetchCategoryItems = async () => {
+  const endPoint = baseUrl + "/fetchAllCategory";
+  return await apiCall(endPoint, "GET");
+};
+
+export const DeleteItemInCategory = async (data) => {
+  const endPoint = baseUrl + "/deleteCategoryItem";
+  return await apiCall(endPoint, "POST" , data);
 };

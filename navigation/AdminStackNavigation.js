@@ -1,15 +1,16 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import AdminScreen from "../screens/Admin/AdminScreen.js"
+import AdminBottomNavigation from "./AdminBottomNavigation"
+
 
 const AdminStackNavigation = () => {
   const Stack = createNativeStackNavigator();
 
   return (
     <Stack.Navigator
-      initialRouteName="AdminScreen"
+      initialRouteName="AdminBottomScreen"
     >
-      <Stack.Screen name="AdminScreen" component={AdminScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="AdminBottomScreen" component={AdminBottomNavigation} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
