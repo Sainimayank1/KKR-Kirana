@@ -7,7 +7,7 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import colors from "../../constants/style";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -21,25 +21,29 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { addAdress } from "../../api";
 
 const AddDeliveryAddressScreen = () => {
-  const [address,setAdress] = useState({userId:null,name:"",mobileNo:"",postalCode:"",city:"",houseNo:"",landmark:"",state:""})
-  const [Loading,setLoading] = useState(false);
-  const getItem = async () => {
-    const token = await AsyncStorage.getItem("authToken");
-    const data = JWT.decode(token,"heymynameismayank!");
-    setAdress({...address , userId:data.userId._id});
-  };
+  const [address, setAdress] = useState({ userId: null, name: "", mobileNo: "", postalCode: "", city: "", houseNo: "", landmark: "", state: "" })
+  const [Loading, setLoading] = useState(false);
 
-  getItem();
+  useEffect(() => {
+    const getItem = async () => {
+      const token = await AsyncStorage.getItem("authToken");
+      const data = JWT.decode(token, "heymynameismayank!");
+      setAdress({ ...address, userId: data.userId._id });
+    };
+
+    getItem();
+  }, [])
 
 
-  const submitHandler = async () =>
-  {
-      setLoading(true);
-      const data = await addAdress(address);
 
-      if(data.status == 200)
-        Alert.alert("Success",data.data.msg)
-      setLoading(false);
+  const submitHandler = async () => {
+    setLoading(true);
+    console.log(address)
+    const data = await addAdress(address);
+
+    if(data.status == 200)
+      Alert.alert("Success",data.data.msg)
+    setLoading(false);
   }
 
   return (
@@ -87,8 +91,8 @@ const AddDeliveryAddressScreen = () => {
                     borderWidth: 2,
                     borderRadius: 5,
                   }}
+                  keyboardType="number-pad"
                   onChangeText={(text) => setAdress({ ...address, mobileNo: text })}
-                  value={address.mobileNo}
                   className="flex py-2 px-3"
                 ></TextInput>
               </View>
@@ -105,14 +109,15 @@ const AddDeliveryAddressScreen = () => {
                     borderRadius: 5,
                   }}
                   onChangeText={(text) => setAdress({ ...address, postalCode: text })}
-                  value={address.postalCode}
+                  keyboardType="number-pad"
+                  // value={address.postalCode}
                   className="flex py-2 px-3"
                 ></TextInput>
               </View>
 
               {/* State & City */}
               <View className="flex-row items-center justify-around">
-                <View className="relative pb-4" style={{width:wp(45)}}>
+                <View className="relative pb-4" style={{ width: wp(45) }}>
                   <View className="absolute bg-white left-3 -top-2 z-10 px-1">
                     <Text style={{ color: colors.blue }}>
                       City (Required)
@@ -125,12 +130,12 @@ const AddDeliveryAddressScreen = () => {
                       borderRadius: 5,
                     }}
                     onChangeText={(text) => setAdress({ ...address, city: text })}
-                    value={address.city}
+                    // value={address.city}
                     className="flex py-2 px-3"
                   ></TextInput>
                 </View>
 
-                <View className="relative pb-4" style={{width:wp(45)}}>
+                <View className="relative pb-4" style={{ width: wp(45) }}>
                   <View className="absolute bg-white left-3 -top-2 z-10 px-1">
                     <Text style={{ color: colors.blue }}>
                       State (Required)
@@ -143,7 +148,7 @@ const AddDeliveryAddressScreen = () => {
                       borderRadius: 5,
                     }}
                     onChangeText={(text) => setAdress({ ...address, state: text })}
-                    value={address.state}
+                    // value={address.state}
                     className="flex py-2 px-3"
                   ></TextInput>
                 </View>
@@ -161,7 +166,7 @@ const AddDeliveryAddressScreen = () => {
                     borderRadius: 5,
                   }}
                   onChangeText={(text) => setAdress({ ...address, houseNo: text })}
-                  value={address.houseNo}
+                  // value={address.houseNo}
                   className="flex py-2 px-3"
                 ></TextInput>
               </View>
@@ -178,7 +183,7 @@ const AddDeliveryAddressScreen = () => {
                     borderRadius: 5,
                   }}
                   onChangeText={(text) => setAdress({ ...address, landmark: text })}
-                  value={address.landmark}
+                  // value={address.landmark}
                   className="flex py-2 px-3"
                 ></TextInput>
               </View>
@@ -195,7 +200,7 @@ const AddDeliveryAddressScreen = () => {
           className="flex items-center justify-center p-2"
           style={{ backgroundColor: colors.orange }}
         >
-          <Text className="text-lg text-white">{Loading ? 
+          <Text className="text-lg text-white">{Loading ?
             "Loading..." : "Save Address"}</Text>
         </TouchableOpacity>
       </View>

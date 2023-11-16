@@ -1,21 +1,21 @@
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
-  userName:{
-    type:String,
-    required:true
+  userName: {
+    type: String,
+    required: true
   },
-  phoneNumber:{
-    type:String,
-    required:true
+  phoneNumber: {
+    type: String,
+    required: true
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     require: true,
   },
-  imageUri:{
-    type:String
+  imageUri: {
+    type: String
   },
   products: [
     {
@@ -55,12 +55,26 @@ const orderSchema = new mongoose.Schema({
     postalCode: {
       type: String,
     },
+    city: {
+      type: String
+    },
+    _id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Address",
+    },
+    state:{
+      type:String
+    }
   },
-  deliveryMethod:{
-    type:String,
+  deliveryMethod: {
+    type: String,
   },
   paymentMethod: {
     type: String,
+  },
+  orderStatus:{
+    type:String,
+    default:"Pending",
   },
   createdAt: {
     type: Date,
@@ -69,4 +83,4 @@ const orderSchema = new mongoose.Schema({
 });
 
 
-export default mongoose.model("Order",orderSchema);
+export default mongoose.model("Order", orderSchema);

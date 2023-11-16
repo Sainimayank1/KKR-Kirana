@@ -19,13 +19,13 @@ export const RemoveDeliveryType = () => ({
     type: 'REMOVE_DELIVERY_TYPE'
 })
 
-export const AddDeliveryAddressId  = (val) => ({
-    type:'ADD_DELIVERY_ADDRESS_ID',
+export const AddDeliveryAddress  = (val) => ({
+    type:'ADD_DELIVERY_ADDRESS',
     payload: val
 })
 
-export const RemoveDeliveryAddressId  = () => ({
-    type:'REMOVE_DELIVERY_ADDRESS_ID'
+export const RemoveDeliveryAddress  = () => ({
+    type:'REMOVE_DELIVERY_ADDRESS'
 })
 
 export const AddToCart = "ADD_TO_CART";

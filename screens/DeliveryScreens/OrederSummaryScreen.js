@@ -11,16 +11,17 @@ import { orderByImage, sendImage } from "../../api"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import JWT from 'expo-jwt';
 import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const OrederSummaryScreen = () => {
   const state = useSelector((state) => state.reducer);
   const [loading, setLoading] = useState(false);
-  const [user,setUser] = useState(null);
+  const [user, setUser] = useState(null);
   const navigate = useNavigation();
 
   const getItem = async () => {
     const token = await AsyncStorage.getItem("authToken");
-    const data = JWT.decode(token,"heymynameismayank!");
+    const data = JWT.decode(token, "heymynameismayank!");
     setUser(data.userId);
   };
 
@@ -30,28 +31,31 @@ const OrederSummaryScreen = () => {
     setLoading(true);
     const data = await sendImage(state.uri);
 
-    if(data.code == 400)
-    {
-        Alert.alert(data.title,data.msg);
+    if (data.code == 400) {
+      Alert.alert(data.title, data.msg);
     }
-    else{
-      const val = {userName:user.name,phoneNumber:user.phone,user:user._id,imageUri:data.url,deliveryMethod:state.deliveryType};
-      const resp = await orderByImage(val);
-      if(!!resp?.data?.msg)
+    else {
+      const val = { userName: user.name, phoneNumber: user.phone, user: user._id, imageUri: data.url, deliveryMethod: state.deliveryType };
+
+      if(state.deliveryType == "Home")
       {
-        Alert.alert("Success",resp.data.msg);
+        val.shippingAddress = state.deliveryAddress;
+      }
+      const resp = await orderByImage(val);
+      if (!!resp?.data?.msg) {
+        Alert.alert("Success", resp.data.msg);
         navigate.navigate("Home");
-      } 
-      else 
-        Alert.alert("Error",resp);
-    } 
+      }
+      else
+        Alert.alert("Error", resp);
+    }
     setLoading(false);
   }
 
 
 
   return (
-    <View className="flex-1 bg-white relative pt-5">
+    <SafeAreaView className="flex-1 bg-white relative pb-20">
       <ScrollView>
         {state.uri != "" && (
           <View className="flex items-center justify-center">
@@ -93,6 +97,25 @@ const OrederSummaryScreen = () => {
           </View>
         </View>
 
+        {/* Address Conatiner */}
+        {
+          state.deliveryType == "Home" &&
+            <View className="w-full bg-white p-4 mb-2 border-t-2 px-3 py-2  border-gray-300" >
+              <Text className="text-md font-bold mb-3">Delivery Address</Text>
+              <View>{!!state.deliveryAddress.name && <Text className="font-bold text-md">{state.deliveryAddress.name}</Text>}</View>
+              <View>
+              <Text>
+              {!!state.deliveryAddress.landmark && <Text>{state.deliveryAddress.landmark} </Text>}
+              {!!state.deliveryAddress.houseNo && <Text>,{state.deliveryAddress.houseNo} </Text>}
+              {!!state.deliveryAddress.city && <Text>,{state.deliveryAddress.city} </Text>}
+              {!!state.deliveryAddress.state && <Text>,{state.deliveryAddress.state} </Text>}
+              {!!state.deliveryAddress.postalCode && <Text>,{state.deliveryAddress.postalCode} </Text>}
+              </Text>
+              </View>
+              <View>{!!state.deliveryAddress.mobileNo && <Text className="font-bold text-md">{state.deliveryAddress.mobileNo}</Text>}</View>
+          </View>
+        }
+
         {/* Price Conatiner */}
 
         <View className="border-t-2 px-3 py-2  border-gray-300">
@@ -114,8 +137,8 @@ const OrederSummaryScreen = () => {
             </Text>
           </View>
         </View>
-      </ScrollView>
 
+      </ScrollView>
       {/* Continue Btn */}
 
       <TouchableOpacity
@@ -127,8 +150,8 @@ const OrederSummaryScreen = () => {
           <Text className="text-lg text-white font-bold">{loading ? "Loading.." : "Continue.."}</Text>
         </View>
       </TouchableOpacity>
-    </View>
-      );
+    </SafeAreaView>
+  );
 };
 
-      export default OrederSummaryScreen;
+export default OrederSummaryScreen;
