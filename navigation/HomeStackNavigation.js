@@ -8,6 +8,8 @@ import AddDeliveryAddressScreen from "../screens/DeliveryScreens/AddDeliveryAddr
 import DeliverySelectionScreen from "../screens/DeliveryScreens/DeliverySelectionScreen.js";
 import ProductScreen from "../screens/ProductScreen.js";
 import AdminBottomNavigation from "./AdminBottomNavigation.js";
+import AllOrders from "../screens/GlobalScreens/AllOrders.js";
+import PageNotAvailable from "../screens/PageNotAvailable.js";
 
 const HomeStackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -24,6 +26,8 @@ const HomeStackNavigation = () => {
       <Stack.Screen name="Add delivery address" component={AddDeliveryAddressScreen} />
       <Stack.Screen name="Select delivery Type" component={DeliverySelectionScreen} />
       <Stack.Screen name="Order Summary" component={OrederSummaryScreen} />
+      <Stack.Screen name="All orders" component={AllOrders} />
+      <Stack.Screen name="Page not available" component={PageNotAvailable} />
     </Stack.Navigator>
   );
 };
