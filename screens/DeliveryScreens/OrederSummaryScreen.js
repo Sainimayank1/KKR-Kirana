@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, Image, ScrollView, Button, Alert } from "
 import React, { useState } from "react";
 import { Entypo } from "@expo/vector-icons";
 import colors from "../../constants/style";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -12,12 +12,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import JWT from 'expo-jwt';
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { RemoveDeliveryAddress, RemoveDeliveryType, RemoveImage } from "../../context/actions/action";
 
 const OrederSummaryScreen = () => {
   const state = useSelector((state) => state.reducer);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigation();
+  const disptach = useDispatch();
 
   const getItem = async () => {
     const token = await AsyncStorage.getItem("authToken");
@@ -44,6 +46,9 @@ const OrederSummaryScreen = () => {
       const resp = await orderByImage(val);
       if (!!resp?.data?.msg) {
         Alert.alert("Success", resp.data.msg);
+        disptach(RemoveImage());
+        disptach(RemoveDeliveryType());
+        disptach(RemoveDeliveryAddress());
         navigate.navigate("Home");
       }
       else

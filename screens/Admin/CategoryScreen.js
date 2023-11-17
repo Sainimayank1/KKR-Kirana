@@ -92,7 +92,6 @@ const CategoryScreen = () => {
             Alert.alert("Success",resp.data.msg)
             await fetchItems();
         }
-        console.log(resp);
         setLoading(false)
     }
 
@@ -169,7 +168,7 @@ const CategoryScreen = () => {
 
                                 })
                                 :
-                                <View className="flex-1 border flex items-center justify-center" style={{height:"100%"}}>
+                                <View className="flex-1  flex items-center justify-center" style={{height:hp(50)}}>
                                     <Text className="text-lg font-bold">No Item</Text>
                                 </View>
                         }

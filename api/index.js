@@ -98,3 +98,18 @@ export const DeleteItemInCategory = async (data) => {
   const endPoint = baseUrl + "/deleteCategoryItem";
   return await apiCall(endPoint, "POST" , data);
 };
+
+export const AddProduct = async (data) => {
+  const endPoint = baseUrl + "/addProduct";
+  return await apiCall(endPoint, "POST" , data);
+};
+
+export const FetchAllProducts = async () => {
+  const endPoint = baseUrl + "/fetchAllProducts";
+  return await apiCall(endPoint, "GET");
+};
+
+export const DeleteProduct = async (data) => {
+  const endPoint = baseUrl + "/deleteProduct";
+  return await apiCall(endPoint, "POST" , data);
+};

@@ -23,7 +23,7 @@ const allReducer = (state = initialState, action) => {
       return { ...state, deliveryAddress: action.payload };
 
     case "REMOVE_DELIVERY_ADDRESS":
-      return { ...state, deliveryAddress: "" };
+      return { ...state, deliveryAddress: {} };
 
     case "ADD_TO_CART":
       return () => {

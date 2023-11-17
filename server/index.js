@@ -188,6 +188,41 @@ app.post("/deleteCategoryItem", async (req, res) => {
     }
 })
 
+// Add in product
+app.post("/addProduct", async (req, res) => {
+    const data = req.body;
+    try {
+        const isCreate = await Product.create(data);
+        if (isCreate)
+            return res.status(200).json({ msg: "Product Added successfully" , data:isCreate})
+    } catch (error) {
+        return res.status(500).json({ msg: error })
+    }
+})
+
+// Fetch All Prodcts
+app.get("/fetchAllProducts", async (req, res) => {
+    try {
+        const isFind = await Product.find();
+        if (isFind)
+            return res.status(200).json({ msg: "All Items" , data:isFind})
+    } catch (error) {
+        return res.status(500).json({ msg: error })
+    }
+})
+
+// Delete Product  using id
+app.post("/deleteProduct", async (req, res) => {
+    const data = req.body;
+    try {
+        const isDelete = await Product.deleteOne(data);
+        if (isDelete)
+            return res.status(200).json({ msg: "Item Delete successfully" , data:isDelete})
+    } catch (error) {
+        return res.status(500).json({ msg: error })
+    }
+})
+
 app.listen(8000, () => {
     console.log("Server Listning on Port:8000")
 })
