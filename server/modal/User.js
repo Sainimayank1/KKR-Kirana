@@ -22,6 +22,10 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false,
       },
+      idAdmin:{
+        type:Boolean,
+        default:false
+      },
       verificationToken: String,
       orders: [
         {

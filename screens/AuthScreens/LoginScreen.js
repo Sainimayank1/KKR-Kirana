@@ -20,6 +20,7 @@ import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { postLogin } from "../../api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import JWT from "expo-jwt";
 
 const LoginScreen = () => {
   const [isChecked, setChecked] = useState(false);
@@ -32,38 +33,21 @@ const LoginScreen = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    let resp;
-    if (value.email.match("@admin.com")) {
-      resp = await postLogin(value);
-      if (resp?.data?.msg == undefined) {
-        Alert.alert("Message", resp);
-      } else {
-        await AsyncStorage.setItem("authToken", resp?.data?.token);
-        navigation.replace("AdminStackNavigation");
-      }
-
-    }
-    else {
-      resp = await postLogin(value);
-      if (resp?.data?.msg == undefined) {
-        Alert.alert("Message", resp);
-      } else {
-        // Alert.alert("Message", resp?.data?.msg);
-        await AsyncStorage.setItem("authToken", resp?.data?.token);
+    let resp = await postLogin(value);
+    if (resp?.data?.msg == undefined) {
+      Alert.alert("Message", resp);
+    } else {
+      await AsyncStorage.setItem("authToken", resp?.data?.token);
+      const data = await JWT.decode(resp?.data?.token, "heymynameismayank!");
+      if (data?.userId?.isAdmin == false)
         navigation.replace("AllScreen");
-      }
+      else if (data?.userId?.isAdmin == true)
+        navigation.replace("Select Screen");
+      else
+        Alert.alert("Error", "Something went wrong");
     }
     setLoading(false);
   };
-
-  useEffect(() => {
-    const checkUser = async () => {
-      const resp = await AsyncStorage.getItem("authToken");
-      if (resp)
-        navigation.replace("AdminStackNavigation");
-    }
-    checkUser();
-  }, [])
 
   useEffect(() => {
     if (

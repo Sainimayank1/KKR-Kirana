@@ -20,8 +20,8 @@ const SplashScreen = () => {
       if(resp)
       {
         const data = JWT.decode(resp,"heymynameismayank!");
-        if(data.userId.email.match("@admin.com"))
-          navigation.replace("AdminStackNavigation");
+        if(data.userId.isAdmin)
+          navigation.replace("Select Screen");
         else
           navigation.replace("AllScreen");
       }

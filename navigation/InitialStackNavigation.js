@@ -6,6 +6,7 @@ import RegisterScreen from '../screens/AuthScreens/RegisterScreen';
 import LoginScreen from '../screens/AuthScreens/LoginScreen';
 import HomeStackNavigation from './HomeStackNavigation';
 import AdminStackNavigation from './AdminStackNavigation';
+import SelectScreen from '../screens/Admin/SelectScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -17,7 +18,9 @@ const InitialStackNavigation = () => {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="AllScreen" component={HomeStackNavigation} />
+        <Stack.Screen name="Select Screen" component={SelectScreen} />
         <Stack.Screen name="AdminStackNavigation" component={AdminStackNavigation} />
+        
     </Stack.Navigator>
   )
 }
