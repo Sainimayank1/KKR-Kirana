@@ -113,3 +113,13 @@ export const DeleteProduct = async (data) => {
   const endPoint = baseUrl + "/deleteProduct";
   return await apiCall(endPoint, "POST" , data);
 };
+
+export const UpdateOrderStatus = async (data) => {
+  const endPoint = baseUrl + "/orderUpdateById";
+  return await apiCall(endPoint, "POST" , data);
+};
+
+export const DeleteOrder = async (data) => {
+  const endPoint = baseUrl + "/deleteOrder";
+  return await apiCall(endPoint, "POST" , data);
+};

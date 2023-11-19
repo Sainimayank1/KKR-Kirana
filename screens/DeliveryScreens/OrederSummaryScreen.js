@@ -110,8 +110,8 @@ const OrederSummaryScreen = () => {
               <View>{!!state.deliveryAddress.name && <Text className="font-bold text-md">{state.deliveryAddress.name}</Text>}</View>
               <View>
               <Text>
-              {!!state.deliveryAddress.landmark && <Text>{state.deliveryAddress.landmark} </Text>}
               {!!state.deliveryAddress.houseNo && <Text>,{state.deliveryAddress.houseNo} </Text>}
+              {!!state.deliveryAddress.landmark && <Text>{state.deliveryAddress.landmark} </Text>}
               {!!state.deliveryAddress.city && <Text>,{state.deliveryAddress.city} </Text>}
               {!!state.deliveryAddress.state && <Text>,{state.deliveryAddress.state} </Text>}
               {!!state.deliveryAddress.postalCode && <Text>,{state.deliveryAddress.postalCode} </Text>}

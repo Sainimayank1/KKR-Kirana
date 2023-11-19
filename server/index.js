@@ -223,6 +223,30 @@ app.post("/deleteProduct", async (req, res) => {
     }
 })
 
+// Update order status
+app.post("/orderUpdateById", async (req, res) => {
+    const data = req.body;
+    try {
+        const isUpdate = await Order.findOneAndUpdate({_id:data._id},{orderStatus:data.status});
+        if (isUpdate)
+            return res.status(200).json({ msg: "order Update successfully" , data:isUpdate})
+    } catch (error) {
+        return res.status(500).json({ msg: error })
+    }
+})
+
+// Delete Order  using id
+app.post("/deleteOrder", async (req, res) => {
+    const data = req.body;
+    try {
+        const isDelete = await Order.deleteOne(data);
+        if (isDelete)
+            return res.status(200).json({ msg: "Order Delete successfully" , data:isDelete})
+    } catch (error) {
+        return res.status(500).json({ msg: error })
+    }
+})
+
 app.listen(8000, () => {
     console.log("Server Listning on Port:8000")
 })

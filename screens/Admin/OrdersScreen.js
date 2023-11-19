@@ -1,21 +1,21 @@
-import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, Alert, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import JWT from 'expo-jwt';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import colors from '../../constants/style';
 import { useNavigation } from '@react-navigation/native';
 import { fetchAllOrders } from '../../api';
 import Navbar from '../../components/Admin/Navbar';
-
+import { getUserFromToken } from '../../constants';
+import OrderDetail from '../../components/Admin/OrderDetail';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 const OrdersScreen = () => {
-  const [user, setUser] = useState({name:""});
+  const [user, setUser] = useState({ name: "" });
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState([]);
-  const navigate = useNavigation();
-
-
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -32,17 +32,17 @@ const OrdersScreen = () => {
 
   useEffect(() => {
     const getItem = async () => {
-      const token = await AsyncStorage.getItem("authToken");
-      const data = JWT.decode(token, "heymynameismayank!");
-      setUser({...user,...data.userId});
+      const data = getUserFromToken(undefined);
+      setUser({ ...user, ...data.userId });
       await fetchOrders();
+
     };
     getItem();
   }, [])
 
 
 
-  
+
 
 
   return (
@@ -60,10 +60,14 @@ const OrdersScreen = () => {
           :
           <ScrollView className="flex-1">
             {
-                orders.map((item,key)=>
-                {
-                  return <View key={key} className="w-full"></View>
-                })
+              orders.length > 0 ? 
+              orders.map((item, key) => {
+                return <OrderDetail item={item} key={key} fetchOrders={fetchOrders} />
+              })
+              :
+              <View className="flex items-center justify-center w-[100%]" style={{height:hp(90)}}>
+                  <Text className="text-xl font-bold ">No Order.</Text>
+              </View>
             }
           </ScrollView>
       }
