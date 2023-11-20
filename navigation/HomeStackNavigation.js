@@ -6,7 +6,7 @@ import DeliveryAdressScreen from "../screens/DeliveryScreens/DeliveryAdressScree
 import OrederSummaryScreen from "../screens/DeliveryScreens/OrederSummaryScreen.js";
 import AddDeliveryAddressScreen from "../screens/DeliveryScreens/AddDeliveryAddressScreen.js";
 import DeliverySelectionScreen from "../screens/DeliveryScreens/DeliverySelectionScreen.js";
-import ProductScreen from "../screens/ProductScreen.js";
+import ProductScreen from "../screens/Admin/ProductsScreen.js";
 import AdminBottomNavigation from "./AdminBottomNavigation.js";
 import AllOrders from "../screens/GlobalScreens/AllOrders.js";
 import PageNotAvailable from "../screens/PageNotAvailable.js";
@@ -19,7 +19,7 @@ const HomeStackNavigation = () => {
       initialRouteName="Main"
     >
       <Stack.Screen name="Main" component={BottomNavigation} options={{ headerShown: false }} />
-      {/* <Stack.Screen name="ProductDetail" component={ProductScreen} /> */}
+      <Stack.Screen name="ProductDetail" component={ProductScreen} />
       <Stack.Screen name="AdminScreen" component={AdminBottomNavigation} options={{ headerShown: false }} />
       <Stack.Screen name="CameraScreen" component={CameraScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="Delivery" component={DeliveryAdressScreen} />

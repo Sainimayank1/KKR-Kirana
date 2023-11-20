@@ -10,14 +10,14 @@ import { useNavigation } from "@react-navigation/native";
 const Card3By2 = ({ data, type }) => {
   const navigation = useNavigation();
   return (
-    <Pressable onPress={()=>{navigation.push("ProductDetail")}}
+    <Pressable onPress={()=>{navigation.navigate("ProductDetail")}}
       className="flex flex-col border border-gray-200 rounded-md items-center justify-around mt-4 overflow-hidden px-1 py-2 space-y-2"
       style={{ width: wp(30), height: wp(40) }}
     >
       {/* Image Container */}
       <View className="w-[100%] h-[70%] relative ">
         <Image
-          source={data.uri}
+          source={{uri:data.uri}}
           className="w-[100%] h-[100%] "
           style={{ objectFit: "contain" }}
         ></Image>

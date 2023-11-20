@@ -247,6 +247,18 @@ app.post("/deleteOrder", async (req, res) => {
     }
 })
 
+
+// Fetch Products according to Category
+app.post("/fetchProductByCategory", async (req, res) => {
+    const {category} = req.body;
+    try {
+        const isFind = await Product.find({category}).limit(6);
+        if (isFind)
+            return res.status(200).json({ msg: "6 Products" , data:isFind})
+    } catch (error) {
+        return res.status(500).json({ msg: error })
+    }
+})
 app.listen(8000, () => {
     console.log("Server Listning on Port:8000")
 })

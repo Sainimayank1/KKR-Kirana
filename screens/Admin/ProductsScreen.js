@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, Alert, TextInput, Image } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, Alert, TextInput, Image , RefreshControl} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import JWT from 'expo-jwt';
@@ -20,17 +20,6 @@ const ProductScreen = () => {
   const [user, setUser] = useState({ name: "" });
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
-  const [category, setCategory] = useState([]);
-  const [selectedImg, setSelectedImg] = useState("");
-  const [item, setItem] = useState({
-    name: "",
-    keyFeature: "",
-    category: "",
-    originalPrice: "",
-    price: "",
-    rating: "",
-    delivery: "",
-  });
   const navigate = useNavigation();
 
 
@@ -47,58 +36,6 @@ const ProductScreen = () => {
     setLoading(false);
   }
 
-  const fetchCategory = async () => {
-    setLoading(true);
-    const data = await FetchCategoryItems();
-    if (data?.data?.data != undefined) {
-      setCategory(data.data.data);
-    }
-    else {
-      Alert.alert("Error", data);
-    }
-    setLoading(false);
-  }
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setSelectedImg(result.assets[0].uri);
-    }
-  };
-
-  const submitHandler = async () => {
-    setLoading(true);
-    if (selectedImg === "") {
-      Alert.alert("Error", "Please choose image");
-      setLoading(false);
-      return;
-    }
-
-    let image = await sendImage(selectedImg);
-    if (image.code != 200) {
-      Alert.alert("Error", "Something went wrong");
-      setLoading(false);
-      return;
-    }
-
-    const {url} = image
-   
-    const data = await AddProduct({...item,uri:url});
-    if (data?.data?.msg != undefined) {
-      Alert.alert("Succes", data.data.msg)
-      await fetchProducts();
-    }
-    else {
-      Alert.alert("Error", data);
-    }
-    setLoading(false);
-  }
 
   const deleteHandler = async (_id) => {
     setLoading(true);
@@ -118,7 +55,6 @@ const ProductScreen = () => {
       await fetchProducts();
     };
     getItem();
-    fetchCategory();
   }, [])
 
 
@@ -130,108 +66,32 @@ const ProductScreen = () => {
       {/* Header */}
       <Navbar user={user} />
 
+      {/* Upper side || Add Category */}
+      <TouchableOpacity onPress={() => navigate.push("Add Product")} className=" mt-2" >
+        <Text className="p-3 m-3 text-white text-center" style={{ backgroundColor: colors.blue }}>Add Item</Text>
+      </TouchableOpacity>
 
       {/* Add Product Conatiner */}
       <ScrollView>
-        <View className="w-full p-4 border-b-4 border-gray-300">
-          <Text className="font-bold text-lg">Add Product</Text>
-
-          {/* Name container */}
-          <View className="flex pt-3 flex-row items-center w-full">
-            <Text className="flex">
-              Name:
-            </Text>
-            <TextInput className="flex-grow border border-gray-400  ml-2 p-1" value={item.name} onChangeText={(e) => setItem({ ...item, name: e })}></TextInput>
-          </View>
-
-          {/* KeyFetaure container */}
-          <View className="flex pt-3 flex-row items-center w-full">
-            <Text className="flex">
-              Key Feature:
-            </Text>
-            <TextInput className="flex-grow border border-gray-400  ml-2 p-1" value={item.keyFeature} onChangeText={(e) => setItem({ ...item, keyFeature: e })}></TextInput>
-          </View>
-
-          {/* Price container */}
-          <View className="flex pt-3 flex-row items-center w-full">
-            <Text className="flex">
-              Price:
-            </Text>
-            <TextInput className="flex-grow border border-gray-400  ml-2 p-1" value={item.price} onChangeText={(e) => setItem({ ...item, price: e })}></TextInput>
-          </View>
-
-          {/* Original Price container */}
-          <View className="flex pt-3 flex-row items-center w-full">
-            <Text className="flex">
-              Original Price:
-            </Text>
-            <TextInput className="flex-grow border border-gray-400  ml-2 p-1" value={item.originalPrice} onChangeText={(e) => setItem({ ...item, originalPrice: e })}></TextInput>
-          </View>
-
-          {/* Rating container */}
-          <View className="flex pt-3 flex-row items-center w-full">
-            <Text className="flex">
-              Rating:
-            </Text>
-            <TextInput className="flex-grow border border-gray-400  ml-2 p-1" value={item.rating} onChangeText={(e) => setItem({ ...item, rating: e })}></TextInput>
-          </View>
-
-          {/* Delivery type container */}
-          <View className="flex pt-3 flex-row items-center w-full">
-            <Text className="flex">
-              Delivery type:
-            </Text>
-            <TextInput className="flex-grow border border-gray-400  ml-2 p-1" value={item.delivery} onChangeText={(e) => setItem({ ...item, delivery: e })}></TextInput>
-          </View>
-
-          {/* Category container */}
-          <View className="flex pt-3 flex-row items-center w-full">
-            <Text className="flex">
-              Category:
-            </Text>
-            {
-              !loading &&
-              <Picker
-                className="w-full border"
-                style={{ width: "90%" }}
-                mode='dropdown'
-                processColor={colors.blue}
-                selectedValue={item.category}
-                onValueChange={(itemValue, itemIndex) =>
-                  setItem({ ...item, category: itemValue })
-                }>
-                {
-                  category.map((item, ind) => <Picker.Item label={item.name} value={item.name} key={ind} />)
-                }
-              </Picker>
-            }
-          </View>
-
-          {/* Select Image */}
-          <View className="flex pt-3 flex-row items-center w-full">
-            <TouchableOpacity className="flex-grow border border-gray-400  ml-2 p-1" onPress={pickImage}><Text>Select Image</Text></TouchableOpacity>
-          </View>
-
-          {/* submit btn */}
-          <View className="pt-3">
-            <TouchableOpacity onPress={submitHandler} className="p-2 flex items-center justify-center" style={{ backgroundColor: colors.blue }}>
-              <Text className="text-md font-bold text-white">{loading ? "loading..." : "Submit"}</Text>
-            </TouchableOpacity>
-
-          </View>
-        </View>
-
         {
           loading ?
-            <View className=" absolute flex-1 w-full flex h-full items-center justify-center" >
+            <View className="flex-1 w-full flex h-full items-center justify-center" style={{ height: hp(90) }} >
               <ActivityIndicator size="large" color={colors.blue} />
             </View>
             :
-            <ScrollView className="flex-1">
+            <ScrollView className="flex-1"
+              refreshControl={
+                <RefreshControl
+                  refreshing={loading}
+                  onRefresh={async () => {
+                    await fetchProducts();
+                  }}
+                />
+              }>
               {
                 products.length > 0 ?
                   products.map((item, key) => {
-                    {/* console.log(item) */}
+                    {/* console.log(item) */ }
                     return <View key={key} className="w-full bg-white p-3 flex-row flex items-start justify-around mt-3">
                       {/* Left section */}
                       <View className='w-[90%] flex gap-1 mb-2'>

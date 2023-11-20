@@ -1,13 +1,12 @@
-import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, Alert, TextInput, Image } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, Alert, TextInput, Image, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import JWT from 'expo-jwt';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import colors from '../../constants/style';
 import { useNavigation } from '@react-navigation/native';
-import { AddItemInCategory, DeleteItemInCategory, FetchCategoryItems, sendImage } from '../../api';
+import { DeleteItemInCategory, FetchCategoryItems } from '../../api';
 import Navbar from '../../components/Admin/Navbar';
-import * as ImagePicker from "expo-image-picker";
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -17,8 +16,6 @@ import { AntDesign } from '@expo/vector-icons';
 
 const CategoryScreen = () => {
     const [user, setUser] = useState({ name: "" });
-    const [item, setItem] = useState("");
-    const [selectedImg, setSelectedImg] = useState("");
     const [loading, setLoading] = useState(false);
     const [category, setCategory] = useState([]);
     const navigate = useNavigation();
@@ -34,19 +31,6 @@ const CategoryScreen = () => {
     }, [])
 
 
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-
-        if (!result.canceled) {
-            setSelectedImg(result.assets[0].uri);
-        }
-    };
-
     const fetchItems = async () => {
         setLoading(true);
         const data = await FetchCategoryItems();
@@ -59,43 +43,15 @@ const CategoryScreen = () => {
         setLoading(false);
     }
 
-    const submitHandler = async () => {
+    const deleteHandler = async (_id) => {
         setLoading(true);
-        if (selectedImg === "") {
-            Alert.alert("Error", "Please choose image");
-            return;
-        }
-
-        let uri = await sendImage(selectedImg);
-        if (uri.code != 200) {
-            Alert.alert("Error", "Something went wrong");
-            return;
-        }
-        const data = await AddItemInCategory({ name: item, uri: uri.url });
-        if (data?.data?.msg != undefined) {
-            Alert.alert("Succes", data.data.msg)
-            await fetchItems();
-        }
-        else {
-            Alert.alert("Error", data);
-        }
-        setLoading(false);
-    }
-
-
-    const deleteHandler = async (_id) =>
-    {
-        setLoading(true);
-        const resp = await DeleteItemInCategory({_id:_id});
-        if(resp.status == 200)
-        {
-            Alert.alert("Success",resp.data.msg)
+        const resp = await DeleteItemInCategory({ _id: _id });
+        if (resp.status == 200) {
+            Alert.alert("Success", resp.data.msg)
             await fetchItems();
         }
         setLoading(false)
     }
-
-
 
 
     return (
@@ -104,38 +60,11 @@ const CategoryScreen = () => {
             <Navbar user={user} />
 
 
-            {/* Adding items container */}
-            <View className="w-full p-4 border-b-4 border-gray-300">
-                <Text className="text-lg font-bold">Add Item</Text>
+            {/* Upper side || Add Category */}
+            <TouchableOpacity onPress={() => navigate.push("Add Item")} className=" mt-2" >
+                <Text className="p-3 m-3 text-white text-center" style={{ backgroundColor: colors.blue }}>Add Item</Text>
+            </TouchableOpacity>
 
-                {/* Name container */}
-                <View className="flex pt-3 flex-row items-center w-full">
-                    <Text className="flex">
-                        Name:
-                    </Text>
-                    <TextInput className="flex-grow border border-gray-400  ml-2 p-1" value={item} onChangeText={(e) => setItem(e)}></TextInput>
-                </View>
-
-                {/* Select Image */}
-                <View className="flex pt-3 flex-row items-center w-full">
-                    <TouchableOpacity className="flex-grow border border-gray-400  ml-2 p-1" onPress={pickImage}><Text>Select Image</Text></TouchableOpacity>
-                </View>
-
-                {/* Uri container */}
-                {/* <View  className="flex pt-3 flex-row items-center w-full">
-                    <Text className="flex">
-                        Uri:
-                    </Text>
-                    <TextInput className="border flex-grow border-gray-400  p-1 ml-2" value={item.uri} onChangeText={(e) => setItem({...item,uri:e})}></TextInput>
-                </View> */}
-
-                {/* submit btn */}
-                <View className="pt-3">
-                    <TouchableOpacity onPress={submitHandler} className="p-2 flex items-center justify-center" style={{ backgroundColor: colors.blue }}>
-                        <Text className="text-md font-bold text-white">{loading ? "loading..." : "Submit"}</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
 
             {/* Down Conatiner */}
             {
@@ -144,7 +73,15 @@ const CategoryScreen = () => {
                         <ActivityIndicator size="large" color={colors.blue} />
                     </View>
                     :
-                    <ScrollView className="flex-1">
+                    <ScrollView className="flex-1"
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={loading}
+                                onRefresh={async() => {
+                                    await fetchItems();
+                                }}
+                            />
+                        }>
                         {
                             category.length > 0 ?
                                 category.map((item, key) => {
@@ -160,7 +97,7 @@ const CategoryScreen = () => {
                                             <TouchableOpacity>
                                                 <AntDesign name="edit" size={22} color="black" />
                                             </TouchableOpacity>
-                                            <TouchableOpacity className="mt-5" onPress={()=>deleteHandler(item._id)} >
+                                            <TouchableOpacity className="mt-5" onPress={() => deleteHandler(item._id)} >
                                                 <AntDesign name="delete" size={22} color="black" />
                                             </TouchableOpacity>
                                         </View>
@@ -168,7 +105,7 @@ const CategoryScreen = () => {
 
                                 })
                                 :
-                                <View className="flex-1  flex items-center justify-center" style={{height:hp(50)}}>
+                                <View className="flex-1  flex items-center justify-center" style={{ height: hp(50) }}>
                                     <Text className="text-lg font-bold">No Item</Text>
                                 </View>
                         }

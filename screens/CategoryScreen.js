@@ -154,65 +154,6 @@ const CategoryScreen = () => {
               })}
             </View>
         }
-
-        {/* More on KKR Kirana */}
-        {/* <View className="p-2">
-          <Text className="text-md font-extrabold pb-3">More on Flipkart</Text>
-          <View className="flex-1 flex flex-row flex-wrap justify-center">
-            {/* Product map */}
-        {/* {productsCatgory.map((item, index) => {
-              return (
-                <Pressable
-                  key={index}
-                  className="items-center justify-center "
-                  style={{ height: wp(28), width: wp(25) }}
-                >
-                  <Image
-                    className="h-[60%] w-[70%] rounded-full bg-blue-100 object-contain "
-                    style={{ objectFit: "contain" }}
-                    source={item.uri}
-                  ></Image>
-                  <Text className=" w-full text-center text-md">
-                    {item?.name?.length >= 10
-                      ? item?.name?.slice(0, 9) + " .."
-                      : item.name}
-                  </Text>
-                </Pressable>
-              ); */}
-        {/* })}
-          </View>
-        </View> */}
-
-        {/* Recently View Store */}
-        <View className="p-2">
-          <Text className="text-md font-[900] pb-2">
-            Recently Viewed Stores
-          </Text>
-          {/* Recently scrollView */}
-          <ScrollView
-            horizontal
-            className="space-x-3"
-            showsHorizontalScrollIndicator={false}
-          >
-            {RecentlyViewStore &&
-              RecentlyViewStore.map((data, index) => {
-                return (
-                  <View
-                    key={index}
-                    style={{ height: wp(35), width: wp(25) }}
-                    className="flex-col items-center border border-gray-300 rounded-md p-2"
-                  >
-                    <Image
-                      source={data.uri}
-                      className="w-full h-[80%]"
-                      style={{ objectFit: "contain" }}
-                    ></Image>
-                    <Text className="text-xs">{data.category}</Text>
-                  </View>
-                );
-              })}
-          </ScrollView>
-        </View>
       </ScrollView>
     </SafeAreaView>
   );
