@@ -128,3 +128,8 @@ export const Fetch6productsUsingCategory = async (data) => {
   const endPoint = baseUrl + "/fetchProductByCategory";
   return await apiCall(endPoint, "POST" , data);
 };
+
+export const UpdateProductDetails = async (data) => {
+  const endPoint = baseUrl + "/UpdateProductDetail";
+  return await apiCall(endPoint, "POST" , data);
+};

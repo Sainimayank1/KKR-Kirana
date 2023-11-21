@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, Alert, TextInput, Image , RefreshControl} from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, Alert, TextInput, Image, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import JWT from 'expo-jwt';
@@ -14,6 +14,7 @@ import {
 } from "react-native-responsive-screen";
 import { Picker } from '@react-native-picker/picker';
 import { AntDesign } from '@expo/vector-icons';
+import SingleProduct from "../../components/Admin/singleProduct"
 
 
 const ProductScreen = () => {
@@ -62,7 +63,7 @@ const ProductScreen = () => {
 
 
   return (
-    <SafeAreaView className="flex-1 relative">
+    <SafeAreaView className="flex-1 relative bg-white">
       {/* Header */}
       <Navbar user={user} />
 
@@ -90,46 +91,13 @@ const ProductScreen = () => {
               }>
               {
                 products.length > 0 ?
-                  products.map((item, key) => {
-                    {/* console.log(item) */ }
-                    return <View key={key} className="w-full bg-white p-3 flex-row flex items-start justify-around mt-3">
-                      {/* Left section */}
-                      <View className='w-[90%] flex gap-1 mb-2'>
-                        <View className="flex flex-row gap-2">
-                          <Text className="border-gray-400 border-2 rounded  p-1 font-bold">Name: {item.name}</Text>
-                          <Text className="border-gray-400 border-2 rounded  p-1  font-bold">Category: {item.category}</Text>
-                        </View>
-                        <View className="flex flex-row gap-2">
-                          <Text className="border-gray-400 border-2 rounded  p-1  font-bold">Key Feature: {item.keyFeature}</Text>
-                          <Text className="border-gray-400 border-2 rounded  p-1 font-bold">Original Price: {item.originalPrice}</Text>
-                        </View>
-                        <View className="flex flex-row gap-2">
-                          <Text className="border-gray-400 border-2 rounded  p-1  font-bold">Price: {item.price}</Text>
-                          <Text className="border-gray-400 border-2 rounded  p-1  font-bold">Rating: {item.rating}</Text>
-                        </View>
-                        <View className="flex flex-row gap-2 pb-3">
-                          <Text className="border-gray-400 border-2 rounded  p-1  font-bold">Total Ratings: {item.totalratings}</Text>
-                          <Text className="border-gray-400 border-2 rounded  p-1  font-bold">Delivery: {item.delivery}</Text>
-                        </View>
-                        <Image source={{ uri: item.uri }} style={{ height: hp(20), objectFit: "contain" }}></Image>
-                      </View>
-
-                      {/* Right section */}
-                      <View className="flex pr-4 ">
-                        <TouchableOpacity>
-                          <AntDesign name="edit" size={22} color="black" />
-                        </TouchableOpacity>
-                        <TouchableOpacity className="mt-5" onPress={() => deleteHandler(item._id)} >
-                          <AntDesign name="delete" size={22} color="black" />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-
+                  products.map((item,index) => {
+                    return <SingleProduct item={item} index={index} key={index}/>
                   })
-                  :
-                  <View className="flex-1  flex items-center justify-center" style={{ height: hp(50) }}>
-                    <Text className="text-lg font-bold">No Item</Text>
-                  </View>
+              :
+              <View className="flex-1  flex items-center justify-center" style={{ height: hp(50) }}>
+                <Text className="text-lg font-bold">No Item</Text>
+              </View>
               }
             </ScrollView>
         }

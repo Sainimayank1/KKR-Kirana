@@ -53,6 +53,11 @@ const CategoryScreen = () => {
         setLoading(false)
     }
 
+    const updateHandler = async () =>
+    {
+
+    }
+
 
     return (
         <SafeAreaView className="flex-1 relative">
@@ -77,7 +82,7 @@ const CategoryScreen = () => {
                         refreshControl={
                             <RefreshControl
                                 refreshing={loading}
-                                onRefresh={async() => {
+                                onRefresh={async () => {
                                     await fetchItems();
                                 }}
                             />
@@ -85,34 +90,39 @@ const CategoryScreen = () => {
                         {
                             category.length > 0 ?
                                 category.map((item, key) => {
-                                    return <View key={key} className="w-full bg-white p-3 flex-row flex items-start justify-around mt-3">
-                                        {/* Left section */}
-                                        <View className='w-[90%] flex gap-2'>
-                                            <Text className="text-lg font-bold">{item.name}</Text>
-                                            <Image source={{ uri: item.uri }} style={{ height: hp(20), objectFit: "contain" }}></Image>
-                                        </View>
-
-                                        {/* Right section */}
-                                        <View className="flex pr-4 ">
-                                            <TouchableOpacity>
-                                                <AntDesign name="edit" size={22} color="black" />
+                                    return <View className="border-b-8 border-gray-300 p-4 gap-2 flex items-center justify-center" key={key}>
+                                        <Text className="text-lg font-bold pb-2" style={{ color: colors.blue }}>Item :{item.name}</Text>
+                                        <Image source={{ uri: item.uri }} style={{ width: wp(70), height: hp(30), objectFit: "contain" }}></Image>
+                                        <View className="w-full flex flex-row items-center justify-around">
+                                            <TouchableOpacity onPress={() => {
+                                                Alert.alert(
+                                                    '',
+                                                    'Are you sure you want to delete?',
+                                                    [
+                                                        { text: 'Cancel', style: 'cancel' },
+                                                        { text: 'OK', onPress: async () => await deleteHandler(item._id) },
+                                                    ],
+                                                    { cancelable: false }
+                                                )
+                                            }} className="bg-red-400 w-[49%] flex items-center justify-center p-1">
+                                                <Text className="text-white text-lg font-bold">Delete</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity className="mt-5" onPress={() => deleteHandler(item._id)} >
-                                                <AntDesign name="delete" size={22} color="black" />
+
+                                            <TouchableOpacity onPress={updateHandler} className="bg-green-400 w-[49%] flex items-center justify-center p-1">
+                                                <Text className="text-white text-lg font-bold">Update</Text>
                                             </TouchableOpacity>
                                         </View>
                                     </View>
-
                                 })
-                                :
-                                <View className="flex-1  flex items-center justify-center" style={{ height: hp(50) }}>
-                                    <Text className="text-lg font-bold">No Item</Text>
-                                </View>
+                                        :
+                                        <View className="flex-1  flex items-center justify-center" style={{ height: hp(50) }}>
+                                            <Text className="text-lg font-bold">No Item</Text>
+                                        </View>
                         }
-                    </ScrollView>
-            }
+                                    </ScrollView>
+                                }
         </SafeAreaView>
     )
 }
 
-export default CategoryScreen
+            export default CategoryScreen

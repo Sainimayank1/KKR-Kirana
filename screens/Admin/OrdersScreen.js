@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, Alert, Image } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, Alert, Image, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import colors from '../../constants/style';
@@ -58,16 +58,23 @@ const OrdersScreen = () => {
             <ActivityIndicator size="large" color={colors.blue} />
           </View>
           :
-          <ScrollView className="flex-1">
+          <ScrollView className="flex-1" refreshControl={
+            <RefreshControl
+              refreshing={loading}
+              onRefresh={async () => {
+                await fetchAllOrders();
+              }}
+            />
+          }>
             {
-              orders.length > 0 ? 
-              orders.map((item, key) => {
-                return <OrderDetail item={item} key={key} fetchOrders={fetchOrders} />
-              })
-              :
-              <View className="flex items-center justify-center w-[100%]" style={{height:hp(90)}}>
+              orders.length > 0 ?
+                orders.map((item, key) => {
+                  return <OrderDetail item={item} key={key} fetchOrders={fetchOrders} />
+                })
+                :
+                <View className="flex items-center justify-center w-[100%]" style={{ height: hp(90) }}>
                   <Text className="text-xl font-bold ">No Order.</Text>
-              </View>
+                </View>
             }
           </ScrollView>
       }

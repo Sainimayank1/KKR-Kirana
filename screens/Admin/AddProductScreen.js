@@ -60,10 +60,10 @@ const AddProductScreen = () => {
     const data = await AddProduct({ ...item, uri: url });
     if (data?.data?.msg != undefined) {
       Alert.alert("Succes", data.data.msg)
-      await fetchProducts();
     }
     else {
-      Alert.alert("Error", data);
+      console.log(data)
+      Alert.alert("Error", "something went wrong");
     }
     setLoading(false);
   }
@@ -73,10 +73,11 @@ const AddProductScreen = () => {
     const data = await FetchCategoryItems();
     if (data?.data?.data != undefined) {
       setCategory(data.data.data);
-      setItem({ ...item, category: [data.data.data[0].name] })
+      setItem({ ...item, category: data.data.data[0].name })
     }
     else {
-      Alert.alert("Error", data);
+      console.log(data)
+      Alert.alert("Error", "something went wrong");
     }
     setLoading(false);
   }
@@ -208,7 +209,7 @@ const AddProductScreen = () => {
          {/* Image container */}
          {
           !!selectedImg &&
-          <View className="relative border border-gray-400 m-2 p-1 flex items-center justify-center">
+          <View className="relative border border-gray-400 m-2 p-1 flex items-center justify-center mb-5">
             <TouchableOpacity className="absolute top-0 right-0" onPress={() => {setSelectedImg(""),setImageName("Select Image")}}><Entypo name="cross" size={30} color="black" /></TouchableOpacity>
             <Image style={{ width: wp(85), height: hp(50), objectFit: "contain" }} source={{ uri: selectedImg }}></Image>
           </View>
