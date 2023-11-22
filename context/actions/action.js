@@ -28,4 +28,7 @@ export const RemoveDeliveryAddress  = () => ({
     type:'REMOVE_DELIVERY_ADDRESS'
 })
 
-export const AddToCart = "ADD_TO_CART";
+export const AddToCart =  (val) => ({
+    type:"ADD_TO_CART",
+    payload: val
+});

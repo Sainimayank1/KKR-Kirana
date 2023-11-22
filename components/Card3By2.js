@@ -10,14 +10,14 @@ import { useNavigation } from "@react-navigation/native";
 const Card3By2 = ({ data, type }) => {
   const navigation = useNavigation();
   return (
-    <Pressable onPress={()=>{navigation.navigate("ProductDetail")}}
-      className="flex flex-col border border-gray-200 rounded-md items-center justify-around mt-4 overflow-hidden px-1 py-2 space-y-2"
+    <Pressable onPress={() => { navigation.push("Product Screen",{productDetail:data}) }}
+      className="flex flex-col border border-gray-200 rounded-md items-center justify-around mt-4 overflow-hidden  space-y-2"
       style={{ width: wp(30), height: wp(40) }}
     >
       {/* Image Container */}
       <View className="w-[100%] h-[70%] relative ">
         <Image
-          source={{uri:data.uri}}
+          source={{ uri: data.uri }}
           className="w-[100%] h-[100%] "
           style={{ objectFit: "contain" }}
         ></Image>
@@ -30,41 +30,30 @@ const Card3By2 = ({ data, type }) => {
         )}
       </View>
 
-      {/* sponsored KeyFeature section  */}
-      {type === "sponsored" && (
-        <Text className="text-md">
-          {data.keyFeature.length > 12
-            ? data.keyFeature.slice(0, 12) + ".."
-            : data.keyFeature}
-        </Text>
-      )}
 
-      {/* sponsored Price section */}
-      {type === "sponsored" && (
-        <Text className="font-[900] text-md">Just ₹{data.price}</Text>
-      )}
-
-      {/* suggested Name Section */}
-      {type === "suggested" && (
-        <Text className="text-xs">
-          {data.name.length > 15 ? data.name.slice(0, 12) + ".." : data.name}
-        </Text>
-      )}
-
-      {/* suggested Price section */}
-      {type === "suggested" && (
-        <Text>
-          <Text className="line-through text-gray-400 text-xs">
-            {data.originalPrice}
+      <View className="bg-gray-100 w-full flex items-center justify-center px-1 py-2">
+        {/* suggested Name Section */}
+        {type === "suggested" && (
+          <Text className="text-xs">
+            {data.name.length > 15 ? data.name.slice(0, 12) + ".." : data.name}
           </Text>
-          <Text className="text-xs font-bold"> ₹{data.price}</Text>
-        </Text>
-      )}
+        )}
 
-      {/* suggested Price section */}
-      {type === "suggested" && (
-        <Text className="font-bold text-xs">{data.delivery} delivery</Text>
-      )}
+        {/* suggested Price section */}
+        {type === "suggested" && (
+          <Text>
+            <Text className="line-through text-gray-400 text-xs">
+              {data.originalPrice}
+            </Text>
+            <Text className="text-xs font-bold"> ₹{data.price}</Text>
+          </Text>
+        )}
+
+        {/* suggested Price section */}
+        {type === "suggested" && (
+          <Text className="font-bold text-xs">{data.delivery} delivery</Text>
+        )}
+      </View>
     </Pressable>
   );
 };

@@ -11,7 +11,7 @@ const PageNotAvailable = () => {
                 Sorry
             </Text>
             <Text  className="font-bold">
-                These page is not available.
+                Currently, This page is not available.
             </Text>
         </View>
     </SafeAreaView>

@@ -26,14 +26,16 @@ const allReducer = (state = initialState, action) => {
       return { ...state, deliveryAddress: {} };
 
     case "ADD_TO_CART":
-      return () => {
-        const isHave = state.cart.find((item) => item.id === action.payload.id);
+      return {...state, cart: (() => {
+        const isHave = state.cart.find((item) => item._id === action.payload._id);
         if (isHave) {
           isHave.quantity++;
         } else {
           state.cart.push({ ...action.payload, quantity: 1 });
         }
-      }
+        return state.cart
+      })()
+    }
 
     default:
       return state;

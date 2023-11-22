@@ -59,7 +59,7 @@ const HomeScreen = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1" style={{}}>
+    <SafeAreaView className="flex-1 bg-white" style={{}}>
       <StatusBar color="light" backgroundColor="white"></StatusBar>
       {/* Upper conatiner*/}
       <View
@@ -73,7 +73,7 @@ const HomeScreen = () => {
       </View>
 
       {/* Scrool Container */}
-      <ScrollView>
+      <ScrollView className='bg-white'>
 
         {/* Search Coantiner */}
         <View className="flex-row items-center justify-between px-2 py-1 space-x-5">
@@ -108,7 +108,7 @@ const HomeScreen = () => {
             <ScrollView
               showsHorizontalScrollIndicator={false}
               horizontal
-              className="mt-2 flex-1 flex-wrap flex-row  h-full border-b-4 border-gray-300"
+              className="mt-2 flex-1 flex-wrap flex-row  h-full border-b-4 border-gray-300 bg-white"
 
             >
               {Catgory.productsCatgory.map((item, index) => {
