@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  RefreshControl,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,25 +18,31 @@ import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
+import colors from "../constants/style";
 
 const CartScreen = () => {
-  const [active, setActive] = useState("flipkart");
-  const [items, setItems] = useState(0);
-  const cart = useSelector((state) => state.reducer.cart);
+  const [cart,setCart] = useState(useSelector((state) => state.reducer.cart));
+  const [loading,setLoading] = useState(false);
   const navigate = useNavigation();
-  const [totalPrice,setTotalPrice] = useState(0);
-  const [totalOriginalPrice,setTotalOriginalPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalOriginalPrice, setTotalOriginalPrice] = useState(0);
 
-  useEffect(()=>
-  {
-    cart.map((val)=>
-    {
-          const original = parseInt(val.originalPrice);
-          setTotalOriginalPrice(totalOriginalPrice+original);
-          const price = parseInt(val.price);
-          setTotalPrice(totalPrice+price);
+  useEffect(() => {
+    cart.map((val) => {
+      const original = parseInt(val.originalPrice);
+      setTotalOriginalPrice(totalOriginalPrice + original);
+      const price = parseInt(val.price);
+      setTotalPrice(totalPrice + price);
     })
   },[])
+
+  const fetchCart = () =>
+  {
+    setLoading(true);
+    let item = useSelector((state) => state.reducer.cart);
+    setCart(item);
+    setLoading(false);
+  }
 
   return (
     <SafeAreaView className="bg-white relative flex-1">
@@ -47,14 +54,14 @@ const CartScreen = () => {
       </View>
 
       {/* Middle Part */}
-      <ScrollView>
-        {cart.map((item, index) => {
+      <ScrollView refreshControl={<RefreshControl onRefresh={fetchCart} refreshing={loading} />}>
+        {cart.length > 0 ? cart.map((item, index) => {
           const original = parseInt(item.originalPrice);
           const price = parseInt(item.price);
           const discount = Math.round(((original - price) / original) * 100);
           return (
             <View className='border-b-4 border-gray-200' key={index}>
-              <TouchableOpacity key={index} className="p-2 gap-1" onPress={()=>navigate.push("Product Screen",{productDetail:item})}>
+              <TouchableOpacity key={index} className="p-2 gap-1" onPress={() => navigate.push("Product Screen", { productDetail: item })}>
                 {/* Upper part */}
                 <View className="flex-1 flex-row space-x-2">
                   {/* Left side */}
@@ -64,7 +71,7 @@ const CartScreen = () => {
                   >
                     {/* Image container */}
                     <Image
-                      source={{uri:item.uri}}
+                      source={{ uri: item.uri }}
                       style={{ objectFit: "contain" }}
                       className="w-full h-[100%]"
                     ></Image>
@@ -128,7 +135,7 @@ const CartScreen = () => {
                   </View>
                 </View>
               </TouchableOpacity>
-              
+
               {/* Bottom bar */}
               <View className="flex-1 flex-row">
                 <Pressable className="flex-1 flex-row p-2 border-2 gap-1 border-gray-100 items-center justify-center">
@@ -148,22 +155,35 @@ const CartScreen = () => {
               </View>
             </View>
           );
-        })}
+        })
+          :
+          <View className="flex-1 flex items-center justify-center">
+            <Image style={{ objectFit: "contain", height: hp(50), width: wp(70) }} source={require("../assests/cart.png")}></Image>
+            <TouchableOpacity style={{backgroundColor:colors.blue}} className="p-2 rounded-md" onPress={()=>
+            {
+                navigate.navigate("Home")
+            }}>
+              <Text className="text-white font-bold">Continue Shopping</Text>
+            </TouchableOpacity>
+          </View>}
       </ScrollView>
 
       {/* Bottom Checkout sidebar */}
-      <View className="absolute bottom-0 p-2 bg-white border-t-2 border-gray-300 flex-1 w-full flex-row items-center justify-between">
-        {/* Left side */}
-        <View className="">
-          <Text className="text-[12px] line-through text-gray-400">₹{totalOriginalPrice}</Text>
-          <Text className="text-lg tracking-widest font-bold">₹{totalPrice}</Text>
-        </View>
+      {
+        cart.length > 0 &&
+        <View className="absolute bottom-0 p-2 bg-white border-t-2 border-gray-300 flex-1 w-full flex-row items-center justify-between">
+          {/* Left side */}
+          <View className="">
+            <Text className="text-[12px] line-through text-gray-400">₹{totalOriginalPrice}</Text>
+            <Text className="text-lg tracking-widest font-bold">₹{totalPrice}</Text>
+          </View>
 
-        {/* Right side */}
-        <TouchableOpacity className="w-[40%] h-[90%] flex items-center justify-center rounded-md bg-yellow-400">
-          <Text className="font-bold text-md">Place order</Text>
-        </TouchableOpacity>
-      </View>
+          {/* Right side */}
+          <TouchableOpacity className="w-[40%] h-[90%] flex items-center justify-center rounded-md bg-yellow-400">
+            <Text className="font-bold text-md">Place order</Text>
+          </TouchableOpacity>
+        </View>
+      }
     </SafeAreaView>
   );
 };

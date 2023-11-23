@@ -133,3 +133,8 @@ export const UpdateProductDetails = async (data) => {
   const endPoint = baseUrl + "/UpdateProductDetail";
   return await apiCall(endPoint, "POST" , data);
 };
+
+export const FetchAllUserOrders = async (data) => {
+  const endPoint = baseUrl + "/fetchAllorders";
+  return await apiCall(endPoint, "POST" , data);
+};

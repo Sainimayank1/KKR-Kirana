@@ -9,7 +9,7 @@ import {
 import { DeleteOrder, UpdateOrderStatus } from '../../api';
 
 
-const OrderDetail = ({ item, key, fetchOrders }) => {
+const OrderDetail = ({ item, key, fetchOrders, type = 'adminOrder' }) => {
     const [status, setStatus] = useState(item.orderStatus);
     const [loading, setLoading] = useState(false);
 
@@ -17,8 +17,7 @@ const OrderDetail = ({ item, key, fetchOrders }) => {
     const deleteHandler = async () => {
         setLoading(true);
         const data = await DeleteOrder({ _id: item._id });
-        if (data.status == 200)
-        {
+        if (data.status == 200) {
             Alert.alert("Success", "Order delete successfully");
             await fetchOrders();
         }
@@ -72,44 +71,56 @@ const OrderDetail = ({ item, key, fetchOrders }) => {
 
 
                         {/* Order status */}
-                        <View className="flex flex-row items-center justify-start">
-                            <Text>Status: </Text>
-                            <Picker
-                                className="w-full border"
-                                style={{ width: "40%" }}
-                                mode='dropdown'
-                                processColor={colors.blue}
-                                selectedValue={status}
-                                onValueChange={(itemValue, itemIndex) =>
-                                    setStatus(itemValue)
-                                }
-                            >
-                                <Picker.Item label="Pending" value="Pending" />
-                                <Picker.Item label="Cancel" value="Cancel" />
-                                <Picker.Item label="Complete" value="Complete" />
-                            </Picker>
-                        </View>
+                        {
+                            type !== "userOrder"
+                                ?
+                                <View className="flex flex-row items-center justify-start">
+                                    <Text>Status: </Text>
+                                    <Picker
+                                        className="w-full border"
+                                        style={{ width: "40%" }}
+                                        mode='dropdown'
+                                        processColor={colors.blue}
+                                        selectedValue={status}
+                                        onValueChange={(itemValue, itemIndex) =>
+                                            setStatus(itemValue)
+                                        }
+                                    >
+                                        <Picker.Item label="Pending" value="Pending" />
+                                        <Picker.Item label="Cancel" value="Cancel" />
+                                        <Picker.Item label="Complete" value="Complete" />
+                                    </Picker>
+                                </View>
+                                :
+                                <View className="flex flex-row items-center justify-start">
+                                    <Text className="text-md font-semibold">Status: {status}</Text>
+                                </View>
+                        }
 
                         {/* Btn container */}
-                        <View className="w-full flex flex-row items-center justify-around">
-                            <TouchableOpacity onPress={() => {
-                                Alert.alert(
-                                    '',
-                                    'Are you sure you want to delete?',
-                                    [
-                                        { text: 'Cancel', style: 'cancel' },
-                                        { text: 'OK', onPress: async () => await deleteHandler() },
-                                    ],
-                                    { cancelable: false }
-                                )
-                            }} className="bg-red-400 w-[49%] flex items-center justify-center p-1">
-                                <Text className="text-white text-lg font-bold">Delete</Text>
-                            </TouchableOpacity>
+                        {
+                            type !== "userOrder"
+                            &&
+                            <View className="w-full flex flex-row items-center justify-around">
+                                <TouchableOpacity onPress={() => {
+                                    Alert.alert(
+                                        '',
+                                        'Are you sure you want to delete?',
+                                        [
+                                            { text: 'Cancel', style: 'cancel' },
+                                            { text: 'OK', onPress: async () => await deleteHandler() },
+                                        ],
+                                        { cancelable: false }
+                                    )
+                                }} className="bg-red-400 w-[49%] flex items-center justify-center p-1">
+                                    <Text className="text-white text-lg font-bold">Delete</Text>
+                                </TouchableOpacity>
 
-                            <TouchableOpacity onPress={updateHandler} className="bg-green-400 w-[49%] flex items-center justify-center p-1">
-                                <Text className="text-white text-lg font-bold">Update</Text>
-                            </TouchableOpacity>
-                        </View>
+                                <TouchableOpacity onPress={updateHandler} className="bg-green-400 w-[49%] flex items-center justify-center p-1">
+                                    <Text className="text-white text-lg font-bold">Update</Text>
+                                </TouchableOpacity>
+                            </View>
+                        }
                     </View>
             }
         </View>

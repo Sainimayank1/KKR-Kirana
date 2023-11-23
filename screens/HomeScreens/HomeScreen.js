@@ -76,7 +76,7 @@ const HomeScreen = () => {
       <ScrollView className='bg-white'>
 
         {/* Search Coantiner */}
-        <View className="flex-row items-center justify-between px-2 py-1 space-x-5">
+        <TouchableOpacity className="flex-row items-center justify-between px-2 py-1 space-x-5" onPress={()=>navigate.push("SearchScreen")}>
           {/*Search Area*/}
           <View className="flex-1 flex flex-row space-x-2 items-center justify-between border border-gray-300 bg-neutral-100 p-1 rounded-md">
             <View className="flex flex-row space-x-2 items-center">
@@ -94,7 +94,7 @@ const HomeScreen = () => {
               <Feather name="camera" size={18} color="gray" />
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
 
         {/* Camera conatiner */}
         <Camera></Camera>
@@ -141,7 +141,7 @@ const HomeScreen = () => {
             <View>
               {
                 fourCatgory.fourproductsCatgory.map((item, index) => {
-                  return (<CategoryContainer item={item} index={index} />);
+                  return (<CategoryContainer item={item} index={index} key={index} />);
                 })
               }
             </View>

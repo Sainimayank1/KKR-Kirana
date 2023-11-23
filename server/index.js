@@ -140,6 +140,18 @@ app.post("/orderByImage", async (req, res) => {
     }
 })
 
+// Fetch All user orders
+app.post("/fetchAllorders", async (req, res) => {
+    const data = req.body;
+    try {
+        const isFind = await Order.find({user:data._id});
+        if (isFind)
+            return res.status(200).json({ msg: "All Orders" , data:isFind})
+    } catch (error) {
+        return res.status(500).json({ msg: error })
+    }
+})
+
 // Fetching all orders
 app.get("/getAllOrder", async (req, res) => {
     try {
@@ -267,6 +279,18 @@ app.post("/UpdateProductDetail", async (req, res) => {
         const isUpdate = await Product.findOneAndUpdate({_id:data._id},{...data});
         if (isUpdate)
             return res.status(200).json({ msg: "Product Update successfully" , data:isUpdate})
+    } catch (error) {
+        return res.status(500).json({ msg: error })
+    }
+})
+
+// Delete Product using id
+app.post("/DeleteProduct", async (req, res) => {
+    const data = req.body;
+    try {
+        const isDelete = await Product.deleteOne(data);
+        if (isDelete)
+            return res.status(200).json({ msg: "Prouct Delete successfully" , data:isDelete})
     } catch (error) {
         return res.status(500).json({ msg: error })
     }

@@ -51,7 +51,7 @@ const AccountScreen = () => {
         <View className="border-b-4 border-gray-300 pb-2">
           {/* Upper one */}
           <View className="flex-1 p-2 flex-row space-x-2">
-            <TouchableOpacity className="flex-1 flex-row items-center space-x-2 border border-gray-400 rounded-md p-2" onPress={()=>navigation.push("All orders")}>
+            <TouchableOpacity onPress={()=>{navigation.push("Orders")}} className="flex-1 flex-row items-center space-x-2 border border-gray-400 rounded-md p-2">
               <Feather name="box" size={22} color="blue" />
               <Text className="font-semibold">Orders</Text>
             </TouchableOpacity>
