@@ -138,3 +138,8 @@ export const FetchAllUserOrders = async (data) => {
   const endPoint = baseUrl + "/fetchAllorders";
   return await apiCall(endPoint, "POST" , data);
 };
+
+export const FetchAllProductsUsingCategory = async (data) => {
+  const endPoint = baseUrl + "/fetchProductByCategorywithoutlimit";
+  return await apiCall(endPoint, "POST" , data);
+};

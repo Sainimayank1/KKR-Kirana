@@ -8,9 +8,10 @@ import {
 } from "react-native-responsive-screen";
 import colors from '../constants/style';
 import Card3By2 from './Card3By2';
+import { useNavigation } from '@react-navigation/native';
 
 const CategoryContainer = ({ item, index }) => {
-
+    const navigate = useNavigation();
     const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);
     useEffect(() => {
@@ -39,6 +40,7 @@ const CategoryContainer = ({ item, index }) => {
                             <TouchableOpacity
                                 style={{ backgroundColor: colors.blue }}
                                 className="p-[2px] rounded-full flex items-center justify-center"
+                                onPress={()=>navigate.push("Products Screen",{category:item})}
                             >
                                 <AntDesign name="right" size={14} color="white" />
                             </TouchableOpacity>

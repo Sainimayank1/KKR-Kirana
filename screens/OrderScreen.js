@@ -6,6 +6,10 @@ import { FetchAllUserOrders } from '../api'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import colors from '../constants/style'
 import OrderDetail from '../components/Admin/OrderDetail'
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 const OrderScreen = () => {
   const [orders, setOrders] = useState([]);
@@ -14,9 +18,11 @@ const OrderScreen = () => {
 
   useEffect(() => {
     const getItem = async () => {
+      setLoading(true);
       const data = await getUserFromToken();
       setUser(data);
       await fetchallorder(data);
+      setLoading(false);
     }
     getItem();
   }, [])
@@ -37,7 +43,11 @@ const OrderScreen = () => {
       } 
       className="bg-white -mt-10">
         {
-          loading ? <ActivityIndicator size="large" color={colors.blue}></ActivityIndicator> :
+          loading ? <View className="flex-1 w-full h-full flex items-center justify-center" style={{width:wp(100),height:hp(90)}}>
+
+          <ActivityIndicator size="large" color={colors.blue}></ActivityIndicator> 
+          </View>
+          :
             orders.length > 0 ? 
             orders.map((item,key)=>
             {

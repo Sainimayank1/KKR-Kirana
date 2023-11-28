@@ -39,27 +39,7 @@ const ProductScreen = () => {
     }, 5000)
     console.log(cart)
   }
-
-
-
-  // const productDetail = {
-  //   // images:[require("")],
-  //   name: "OnePlus Nord CE 2 Lite 5G (Blue Tide, 128 GB)  (6 GB RAM) ",
-  //   images: [
-
-  //   ],
-  //   keyFeature: "Brown, In the Ear",
-  //   totalratings: "14,628",
-  //   category: "Earphone",
-  //   originalPrice: "6,999",
-  //   price: "1,499",
-  //   rating: "4.1",
-  //   delivery: "Free",
-  //   assured: true,
-  //   highLight: ["abc", "ghj", "efg", "jkl", "mynl", "not", "ybl"],
-  //   index: 1,
-  // };
-
+  
   const original = parseInt(productDetail.originalPrice);
   const price = parseInt(productDetail.price);
   const discount = Math.round(((original - price) / original) * 100);

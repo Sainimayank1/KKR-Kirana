@@ -116,6 +116,7 @@ const HomeScreen = () => {
                   key={index}
                   className="items-center justify-center  h-full"
                   style={{ height: wp(25), width: wp(20) }}
+                  onPress={()=>navigate.push("Products Screen",{category:item})}
                 >
                   <Image
                     className="h-[50%] w-[65%] rounded-full bg-blue-100 object-contain "

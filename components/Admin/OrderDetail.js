@@ -93,7 +93,7 @@ const OrderDetail = ({ item, key, fetchOrders, type = 'adminOrder' }) => {
                                 </View>
                                 :
                                 <View className="flex flex-row items-center justify-start">
-                                    <Text className="text-md font-semibold">Status: {status}</Text>
+                                    <Text className="text-md">Status: <Text className=" font-extrabold" style={{color:status === "Pending" ? "blue" : status === 'Cancel' ? 'red' : 'green'}}>{status}</Text></Text>
                                 </View>
                         }
 

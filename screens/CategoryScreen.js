@@ -24,7 +24,7 @@ const CategoryScreen = () => {
 
   useEffect(() => {
     fetchCategory();
-  }, [])
+  },[])
 
 
   const fetchCategory = async () => {

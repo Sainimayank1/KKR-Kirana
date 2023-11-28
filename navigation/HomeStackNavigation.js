@@ -11,6 +11,7 @@ import PageNotAvailable from "../screens/PageNotAvailable.js";
 import ProductScreen from "../screens/ProductScreen.js";
 import SearchScreen from "../screens/SearchScreen.js";
 import OrderScreen from "../screens/OrderScreen.js";
+import ProductsScreen from "../screens/ProductsScreen.js";
 
 const HomeStackNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -21,6 +22,7 @@ const HomeStackNavigation = () => {
     >
       <Stack.Screen name="Main" component={BottomNavigation} options={{ headerShown: false }} />
       <Stack.Screen name="Product Screen" component={ProductScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="Products Screen" component={ProductsScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="SearchScreen" component={SearchScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="AdminScreen" component={AdminBottomNavigation} options={{ headerShown: false }} />
       <Stack.Screen name="CameraScreen" component={CameraScreen} options={{ headerShown: false }}/>

@@ -272,6 +272,18 @@ app.post("/fetchProductByCategory", async (req, res) => {
     }
 })
 
+// Fetch Products according to Category without limit
+app.post("/fetchProductByCategorywithoutlimit", async (req, res) => {
+    const {category} = req.body;
+    try {
+        const isFind = await Product.find({category});
+        if (isFind)
+            return res.status(200).json({ msg: "All Products" , data:isFind})
+    } catch (error) {
+        return res.status(500).json({ msg: error })
+    }
+})
+
 // Update Product Detail
 app.post("/UpdateProductDetail", async (req, res) => {
     const data = req.body;
