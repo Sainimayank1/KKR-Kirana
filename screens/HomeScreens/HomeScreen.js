@@ -11,9 +11,9 @@ import {
   ActivityIndicator,
   TextInput,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import colors from "../../constants/style";
 import {
   widthPercentageToDP as wp,
@@ -37,9 +37,11 @@ const HomeScreen = () => {
   const [fourCatgory, setfourCategory] = useState({ fourproductsCatgory: [], fourproductsCatgoryLoader: false });
 
 
-  useEffect(() => {
-    fetchCategory();
-  }, [])
+  useFocusEffect(
+    useCallback(() => {
+      fetchCategory();
+    }, [])
+  );
 
 
   const fetchCategory = async () => {

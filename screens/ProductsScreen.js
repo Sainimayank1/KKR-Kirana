@@ -1,4 +1,4 @@
-import { View, Text, Alert, ScrollView, Image, TouchableOpacity } from 'react-native'
+import { View, Text, Alert, ScrollView, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { FetchAllProductsUsingCategory } from '../api';
@@ -10,7 +10,7 @@ import {
 } from "react-native-responsive-screen";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from '@expo/vector-icons';
-
+import Colors from "../constants/style.js"
 const ProductsScreen = () => {
   const route = useRoute();
   const [loading, setLoading] = useState(false);
@@ -42,13 +42,18 @@ const ProductsScreen = () => {
       {/* Search Container*/}
       <SearchContainer />
 
-      <ScrollView>
+      <ScrollView className="flex flex-1 ">
         {
+          loading ? 
+          <View className="flex items-center justify-center" style={{height:hp(90)}}>
+          <ActivityIndicator size="large" color={Colors.blue} ></ActivityIndicator>
+          </View>
+          :
           data.map((item,key) => {
             const original = parseInt(item.originalPrice);
             const price = parseInt(item.price);
             const discount = Math.round(((original - price) / original) * 100);
-            return <TouchableOpacity key={key} className="border-b-2 border-gray-200" onPress={()=>navigate.push("Product Screen",{productDetail:item})}>
+            return <TouchableOpacity key={key} className="border-b-2 border-gray-200 py-2" onPress={()=>navigate.push("Product Screen",{productDetail:item})}>
               {/* Upper section */}
               <View className="flex flex-row w-full px-4 py-2">
                 {/* Left section */}
@@ -106,7 +111,7 @@ const ProductsScreen = () => {
                 {
                   item.highLight.map((light)=>
                   {
-                      return <Text className="border border-gray-200 px-2 py-1 mx-2 my-1 text-sm">{light}</Text>
+                      return <Text className="border border-gray-200 px-2 py-1 mx-2 my-1 text-xs">{light}</Text>
                   })
                 }
               </View>

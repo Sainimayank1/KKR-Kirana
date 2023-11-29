@@ -54,7 +54,7 @@ const OrderScreen = () => {
                 return <OrderDetail item={item} key={key} fetchOrders={fetchallorder} type="userOrder" />
             })
             :
-            <View className="flex-1">
+            <View className="flex-1 items-center justify-center" style={{height:hp(90)}}>
                 <Text>No orders</Text>
             </View>
         }

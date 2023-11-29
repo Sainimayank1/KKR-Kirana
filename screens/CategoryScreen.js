@@ -7,7 +7,7 @@ import {
   Image,
   ActivityIndicator,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import colors from "../constants/style";
@@ -17,14 +17,17 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { FetchCategoryItems } from "../api";
+import { useFocusEffect } from '@react-navigation/native';
 
 const CategoryScreen = () => {
   const [Catgory, setCategory] = useState({ productsCatgory: [], productsCatgoryLoader: false });
 
 
-  useEffect(() => {
-    fetchCategory();
-  },[])
+  useFocusEffect(
+    useCallback(() => {
+      fetchCategory();
+    }, [])
+  );
 
 
   const fetchCategory = async () => {
@@ -122,12 +125,12 @@ const CategoryScreen = () => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         vertical
-        className="flex-1 h-full bg-white"
+        className="flex-1 bg-white"
       >
         {/* Product conatiner */}
         {
           Catgory.productsCatgoryLoader ?
-            <View className="h-full p-10">
+            <View className="h-full p-10 flex items-center justify-center" style={{height:hp(90)}}>
               <ActivityIndicator size="large" color={colors.blue}></ActivityIndicator>
             </View> :
             <View className="flex-1 flex flex-row flex-wrap justify-center">

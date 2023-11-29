@@ -92,7 +92,7 @@ const AccountScreen = () => {
             </TouchableOpacity>
 
             {/* OPtion-3 */}
-            <TouchableOpacity className="flex flex-row items-center justify-between">
+            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={()=>navigation.push("Page not available")}>
               <View className="space-x-2 flex flex-row items-center">
                 <AntDesign name="wallet" size={20} color="blue" />
                 <Text>Saved Cards & Wallet</Text>
@@ -101,7 +101,7 @@ const AccountScreen = () => {
             </TouchableOpacity>
 
             {/* OPtion-4 */}
-            <TouchableOpacity className="flex flex-row items-center justify-between">
+            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={()=>navigation.push("Page not available")}>
               <View className="space-x-2 flex flex-row items-center">
                 <EvilIcons name="location" size={22} color="blue" />
                 <Text>Saved Addresses</Text>
@@ -110,7 +110,7 @@ const AccountScreen = () => {
             </TouchableOpacity>
 
             {/* OPtion-5 */}
-            <TouchableOpacity className="flex flex-row items-center justify-between">
+            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={()=>navigation.push("Page not available")}>
               <View className="space-x-2 flex flex-row items-center">
                 <Ionicons name="language" size={22} color="blue" />
                 <Text>Saved Language</Text>
@@ -119,7 +119,7 @@ const AccountScreen = () => {
             </TouchableOpacity>
 
             {/* OPtion-6 */}
-            <TouchableOpacity className="flex flex-row items-center justify-between">
+            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={()=>navigation.push("Page not available")}>
               <View className="space-x-2 flex flex-row items-center">
                 <Ionicons name="notifications-outline" size={22} color="blue" />
                 <Text>Notification Settings</Text>
@@ -137,7 +137,7 @@ const AccountScreen = () => {
           {/* OPtion section */}
           <View className="space-y-5 pb-2 pt-2">
             {/* Option-1 */}
-            <TouchableOpacity className="flex flex-row items-center justify-between">
+            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={()=>navigation.push("Page not available")}>
               <View className="space-x-2 flex flex-row items-center">
                 <Ionicons name="newspaper-outline" size={22} color="blue" />
                 <Text>Terms, Policies and Licenses</Text>
@@ -146,7 +146,7 @@ const AccountScreen = () => {
             </TouchableOpacity>
 
             {/* OPtion-2 */}
-            <TouchableOpacity className="flex flex-row items-center justify-between">
+            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={()=>navigation.push("Page not available")}>
               <View className="space-x-2 flex flex-row items-center">
                 <Octicons name="question" size={22} color="blue" />
                 <Text>Browse FAQs</Text>

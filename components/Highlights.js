@@ -8,7 +8,7 @@ const Highlights = ({data}) => {
     {
       data.map((item,index)=>
       {
-          return <View className="flex items-center flex-row">
+          return <View className="flex items-center flex-row" key={index}>
           <Entypo name="dot-single" size={12} color="black" className="flex items-center flex-row"/>
           <Text key={index} >{item}</Text>
           </View>

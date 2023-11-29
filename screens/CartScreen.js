@@ -7,42 +7,55 @@ import {
   Image,
   RefreshControl,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { AntDesign } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import colors from "../constants/style";
+import { AddToCart, ClearCart, DeleteFromCart, FetchAllCart, RemoveFromCart } from "../constants";
+import { Ionicons } from '@expo/vector-icons';
 
 const CartScreen = () => {
-  const [cart,setCart] = useState(useSelector((state) => state.reducer.cart));
-  const [loading,setLoading] = useState(false);
+  const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigation();
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalOriginalPrice, setTotalOriginalPrice] = useState(0);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    cart.map((val) => {
-      const original = parseInt(val.originalPrice);
-      setTotalOriginalPrice(totalOriginalPrice + original);
-      const price = parseInt(val.price);
-      setTotalPrice(totalPrice + price);
-    })
-  },[])
-
-  const fetchCart = () =>
-  {
+  const fetchCartData = async () => {
     setLoading(true);
-    let item = useSelector((state) => state.reducer.cart);
-    setCart(item);
+    setTotalOriginalPrice(0);
+    setTotalPrice(0);
+    const data = await FetchAllCart();
+    if(!data)
+    {
+      setLoading(false);
+      return;
+    }
+    data.forEach(val=>{
+      console.log(val)
+      const original = parseInt(val.originalPrice) * val.quantity;
+      setTotalOriginalPrice(totalOriginalPrice + original);
+      const price = parseInt(val.price) * val.quantity;
+      setTotalPrice(totalPrice + price);
+    });
+    setCart(data);
     setLoading(false);
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchCartData();
+    }, [])
+  );
+
 
   return (
     <SafeAreaView className="bg-white relative flex-1">
@@ -54,10 +67,10 @@ const CartScreen = () => {
       </View>
 
       {/* Middle Part */}
-      <ScrollView refreshControl={<RefreshControl onRefresh={fetchCart} refreshing={loading} />}>
+      <ScrollView refreshControl={<RefreshControl onRefresh={() => { fetchCartData() }} refreshing={loading} />}>
         {cart.length > 0 ? cart.map((item, index) => {
-          const original = parseInt(item.originalPrice);
-          const price = parseInt(item.price);
+          const original = parseInt(item?.originalPrice);
+          const price = parseInt(item?.price);
           const discount = Math.round(((original - price) / original) * 100);
           return (
             <View className='border-b-4 border-gray-200' key={index}>
@@ -138,19 +151,15 @@ const CartScreen = () => {
 
               {/* Bottom bar */}
               <View className="flex-1 flex-row">
-                <Pressable className="flex-1 flex-row p-2 border-2 gap-1 border-gray-100 items-center justify-center">
-                  <AntDesign name="delete" size={14} color="gray" />
-                  <Text className="text-[16px] text-gray-600 ">Remove</Text>
+                <Pressable className="flex-1 flex-row p-2 border-2 gap-1 border-gray-100 items-center justify-center" onPress={async()=>{await DeleteFromCart(item),await fetchCartData()}}>
+                  <Ionicons name="remove" size={14} color="gray" />
                 </Pressable>
-                <Pressable className="flex-1 flex-row p-2 gap-1  border-2 border-gray-100 items-center justify-center">
-                  <MaterialCommunityIcons
-                    name="lightning-bolt"
-                    size={14}
-                    color="gray"
-                  />
-                  <Text className="text-[16px] text-gray-600">
-                    Buy this now
-                  </Text>
+                <Pressable className="flex-1 flex-row p-2 border-2 gap-1 border-gray-100 items-center justify-center"  onPress={async()=>{await AddToCart(item),await fetchCartData()}}>
+                  <Ionicons name="add" size={14} color="gray" />
+                </Pressable>
+                <Pressable className="flex-1 flex-row p-2 border-2 gap-1 border-gray-100 items-center justify-center"  onPress={async()=>{await RemoveFromCart(item),await fetchCartData()}}>
+                  <AntDesign name="delete" size={14} color="gray" />
+                  {/* <Text className="text-[16px] text-gray-600 ">Remove</Text> */}
                 </Pressable>
               </View>
             </View>
@@ -159,9 +168,8 @@ const CartScreen = () => {
           :
           <View className="flex-1 flex items-center justify-center">
             <Image style={{ objectFit: "contain", height: hp(50), width: wp(70) }} source={require("../assests/cart.png")}></Image>
-            <TouchableOpacity style={{backgroundColor:colors.blue}} className="p-2 rounded-md" onPress={()=>
-            {
-                navigate.navigate("Home")
+            <TouchableOpacity style={{ backgroundColor: colors.blue }} className="p-2 rounded-md" onPress={() => {
+              navigate.navigate("Home")
             }}>
               <Text className="text-white font-bold">Continue Shopping</Text>
             </TouchableOpacity>
@@ -187,5 +195,6 @@ const CartScreen = () => {
     </SafeAreaView>
   );
 };
+
 
 export default CartScreen;

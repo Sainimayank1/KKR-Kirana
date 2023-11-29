@@ -21,7 +21,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { AddToCart } from "../context/actions/action";
+import { AddToCart, FetchAllCart } from "../constants";
 
 const ProductScreen = () => {
   const route = useRoute();
@@ -29,15 +29,14 @@ const ProductScreen = () => {
   const [isAdded, setAdded] = useState(false);
   const disptach = useDispatch();
   const { productDetail } = route.params;
-  const cart = useSelector(state => state.reducer.cart)
 
-  const addtocart = (item) => {
+  const addtocart = async (item) => {
     setAdded(true);
-    disptach(AddToCart(item))
+    await AddToCart(item);
+    console.log(await FetchAllCart());
     setTimeout(() => {
       setAdded(false);
     }, 5000)
-    console.log(cart)
   }
   
   const original = parseInt(productDetail.originalPrice);
