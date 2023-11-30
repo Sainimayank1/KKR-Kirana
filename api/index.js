@@ -74,8 +74,8 @@ export const fetchAddress = async (data) => {
   return await apiCall(endPoint, "POST", data);
 };
 
-export const orderByImage = async (data) => {
-  const endPoint = baseUrl + "/orderByImage";
+export const Order = async (data) => {
+  const endPoint = baseUrl + "/Order";
   return await apiCall(endPoint, "POST", data);
 };
 

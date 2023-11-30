@@ -129,7 +129,7 @@ app.post("/addressFetcher", async (req, res) => {
 })
 
 // Order by Image
-app.post("/orderByImage", async (req, res) => {
+app.post("/Order", async (req, res) => {
     const data = req.body;
     try {
         const isCreate = await Order.create(data);

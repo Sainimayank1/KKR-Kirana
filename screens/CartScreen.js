@@ -26,7 +26,6 @@ const CartScreen = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigation();
   const [amount,setAmount] = useState({orignal:0,price:0});
-  const dispatch = useDispatch();
 
   const fetchCartData = async () => {
     setLoading(true);
@@ -184,7 +183,7 @@ const CartScreen = () => {
           </View>
 
           {/* Right side */}
-          <TouchableOpacity className="w-[40%] h-[90%] flex items-center justify-center rounded-md bg-yellow-400">
+          <TouchableOpacity className="w-[40%] h-[90%] flex items-center justify-center rounded-md bg-yellow-400" onPress={()=>navigate.push("Select delivery Type")}>
             <Text className="font-bold text-md">Place order</Text>
           </TouchableOpacity>
         </View>

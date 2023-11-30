@@ -19,6 +19,14 @@ const orderSchema = new mongoose.Schema({
   },
   products: [
     {
+      _id:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+        require: true,
+      },
+      category:{
+        type:String
+      },
       name: {
         type: String,
       },
@@ -28,7 +36,7 @@ const orderSchema = new mongoose.Schema({
       price: {
         type: Number,
       },
-      image: {
+      uri: {
         type: String,
       },
     },
