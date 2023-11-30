@@ -25,27 +25,24 @@ const CartScreen = () => {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigation();
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [totalOriginalPrice, setTotalOriginalPrice] = useState(0);
+  const [amount,setAmount] = useState({orignal:0,price:0});
   const dispatch = useDispatch();
 
   const fetchCartData = async () => {
     setLoading(true);
-    setTotalOriginalPrice(0);
-    setTotalPrice(0);
     const data = await FetchAllCart();
     if(!data)
     {
       setLoading(false);
       return;
     }
-    data.forEach(val=>{
-      console.log(val)
-      const original = parseInt(val.originalPrice) * val.quantity;
-      setTotalOriginalPrice(totalOriginalPrice + original);
-      const price = parseInt(val.price) * val.quantity;
-      setTotalPrice(totalPrice + price);
-    });
+    let obj = {price:0,original:0};
+    data.map((val)=>
+    {
+      obj.price+=parseInt(val.price)*parseInt(val.quantity);
+      obj.original+=parseInt(val.originalPrice)*parseInt(val.quantity);
+    })
+    setAmount({orignal:obj.original,price:obj.price});
     setCart(data);
     setLoading(false);
   }
@@ -182,8 +179,8 @@ const CartScreen = () => {
         <View className="absolute bottom-0 p-2 bg-white border-t-2 border-gray-300 flex-1 w-full flex-row items-center justify-between">
           {/* Left side */}
           <View className="">
-            <Text className="text-[12px] line-through text-gray-400">₹{totalOriginalPrice}</Text>
-            <Text className="text-lg tracking-widest font-bold">₹{totalPrice}</Text>
+            <Text className="text-[12px] line-through text-gray-400">₹{amount.orignal}</Text>
+            <Text className="text-lg tracking-widest font-bold">₹{amount.price}</Text>
           </View>
 
           {/* Right side */}
