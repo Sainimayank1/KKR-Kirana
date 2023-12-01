@@ -40,11 +40,6 @@ const OrdersScreen = () => {
     getItem();
   }, [])
 
-
-
-
-
-
   return (
     <SafeAreaView className="flex-1 relative">
       {/* Header */}
@@ -61,9 +56,7 @@ const OrdersScreen = () => {
           <ScrollView className="flex-1" refreshControl={
             <RefreshControl
               refreshing={loading}
-              onRefresh={async () => {
-                await fetchAllOrders();
-              }}
+              onRefresh={fetchOrders}
             />
           }>
             {

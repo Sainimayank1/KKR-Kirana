@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ActivityIndicator, Alert } from 'react-native'
+import { View, Text, Image, TouchableOpacity, ActivityIndicator, Alert, Pressable } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import React, { useState } from 'react'
 import colors from '../../constants/style'
@@ -7,6 +7,8 @@ import {
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { DeleteOrder, UpdateOrderStatus } from '../../api';
+import { AntDesign } from "@expo/vector-icons";
+import { Ionicons } from '@expo/vector-icons';
 
 
 const OrderDetail = ({ item, key, fetchOrders, type = 'adminOrder' }) => {
@@ -69,13 +71,77 @@ const OrderDetail = ({ item, key, fetchOrders, type = 'adminOrder' }) => {
                             </Image>
                         }
 
+                        {/* Cart conatiner */}
+                        <View>
+                            {
+                                item.products.length > 0 && item.products.map((cartItem, index) => {
+                                    return (
+                                        <View key={index}>
+                                            <View key={index} className="p-2 gap-1">
+                                                {/* Upper part */}
+                                                <View className="flex-1 flex-row space-x-2">
+                                                    {/* Left side */}
+                                                    <View
+                                                        className="p-1"
+                                                        style={{ width: wp(25), height: wp(25) }}
+                                                    >
+                                                        {/* Image container */}
+                                                        <Image
+                                                            source={{ uri: cartItem.uri }}
+                                                            style={{ objectFit: "contain" }}
+                                                            className="w-full h-[100%]"
+                                                        ></Image>
+                                                    </View>
+
+                                                    {/* Right side */}
+                                                    <View className="space-y-2">
+                                                        {/* Name of product */}
+                                                        <Text>
+                                                            {cartItem?.name.length > 40
+                                                                ? cartItem?.name.slice(0, 40) + "..."
+                                                                : cartItem?.name}
+                                                        </Text>
+
+                                                        {/* Category */}
+                                                        <Text>{cartItem.category}</Text>
+
+                                                        {/* Price discount */}
+                                                        <View className=" flex-1 flex-row space-x-2">
+                                                            <Text className="font-bold">₹{cartItem.price}</Text>
+                                                        </View>
+                                                    </View>
+                                                </View>
+
+                                                {/* Middle one */}
+                                                <View className="flex flex-row">
+                                                    {/* {item?.delivery && (
+                                                        <View className="p-2">
+                                                            <Text className="text-green-700">
+                                                                {item?.delivery === "Free"
+                                                                    ? item?.delivery
+                                                                    : "₹" + item.delivery}{" "}
+                                                                Delivery
+                                                            </Text>
+                                                        </View>
+                                                    )} */}
+                                                    <View className="border border-gray-100 p-0 pl-2 pr-2 items-center justify-center">
+                                                        <Text className='text-xs text-gray-600'>Qty :{cartItem.quantity}</Text>
+                                                    </View>
+                                                </View>
+                                            </View>
+                                        </View>
+                                    );
+                                })
+                            }
+                        </View>
+
 
                         {/* Order status */}
                         {
                             type !== "userOrder"
                                 ?
                                 <View className="flex flex-row items-center justify-start">
-                                    <Text>Status: </Text>
+                                    <Text className="">Status: </Text>
                                     <Picker
                                         className="w-full border"
                                         style={{ width: "40%" }}
@@ -93,7 +159,7 @@ const OrderDetail = ({ item, key, fetchOrders, type = 'adminOrder' }) => {
                                 </View>
                                 :
                                 <View className="flex flex-row items-center justify-start">
-                                    <Text className="text-md">Status: <Text className=" font-extrabold" style={{color:status === "Pending" ? "blue" : status === 'Cancel' ? 'red' : 'green'}}>{status}</Text></Text>
+                                    <Text className="text-lg">Status: <Text className=" font-extrabold" style={{ color: status === "Pending" ? "blue" : status === 'Cancel' ? 'red' : 'green' }}>{status}</Text></Text>
                                 </View>
                         }
 

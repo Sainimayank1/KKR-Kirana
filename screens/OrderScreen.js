@@ -29,11 +29,13 @@ const OrderScreen = () => {
 
 
   const fetchallorder = async () => {
+    setLoading(true);
     const item = await FetchAllUserOrders({ _id: user?.userId?._id });
     if (item.status == 200)
       setOrders(item.data.data);
     else
       Alert.alert("Error", "Something went wrong");
+    setLoading(false);
   }
 
   return (
