@@ -62,7 +62,7 @@ const OrdersScreen = () => {
             {
               orders.length > 0 ?
                 orders.map((item, key) => {
-                  return <OrderDetail item={item} key={key} fetchOrders={fetchOrders} />
+                  return <OrderDetail item={item} index={key} fetchOrders={fetchOrders} />
                 })
                 :
                 <View className="flex items-center justify-center w-[100%]" style={{ height: hp(90) }}>

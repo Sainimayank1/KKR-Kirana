@@ -33,7 +33,6 @@ const ProductScreen = () => {
   const addtocart = async (item) => {
     setAdded(true);
     await AddToCart(item);
-    console.log(await FetchAllCart());
     setTimeout(() => {
       setAdded(false);
     }, 5000)
@@ -79,7 +78,7 @@ const ProductScreen = () => {
           {productDetail && (
             <View className="space-y-1">
               {/* Name of Product */}
-              <Text className="text-md flex-wrap text-sm">
+              <Text className="text-md flex-wrap text-sm font-bold">
                 {productDetail.name}
               </Text>
 
@@ -116,84 +115,6 @@ const ProductScreen = () => {
               </View>
             </View>
           )}
-        </View>
-
-        {/* Braker 😂*/}
-        <View className="h-1 bg-gray-100"></View>
-
-        {/* Delivery section */}
-        <View className="p-3  flex items-center justify-between flex-row border-b-0.5 border-gray-300">
-          {/* Left container */}
-          <View>
-            {/* Upper side  */}
-            <View className="flex items-center flex-row space-x-2">
-              <Text className="text-xs font-bold">
-                Deliver to: <Text className="">Mayank,136156</Text>
-              </Text>
-              <View className="p-1 bg-gray-100 rounded-md">
-                <Text className="text-gray-600 text-xs">Home</Text>
-              </View>
-            </View>
-
-            {/* Loweer side  */}
-            <View>
-              <Text className="text-gray-500 text-xs">
-                Dhannani, Sunarion road, Kurukshetra District
-              </Text>
-            </View>
-          </View>
-
-          {/* Right container */}
-          <View>
-            <TouchableOpacity className=" py-1.5 px-2 border border-gray-300 rounded-md">
-              <Text className="text-blue-600 text-xs font-bold">Change</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Expect Delivery */}
-        <View className="p-3 flex items-center flex-row space-x-4">
-          {/* Left container */}
-          <View>
-            <Feather name="truck" size={18} color="gray" />
-          </View>
-
-          {/* Right container */}
-          <View className="flex items-start flex-col">
-            {/* Upper part */}
-
-            <View className="space-x-1 flex items-center flex-row">
-              {
-                productDetail.delivery === "Free" ? <>
-                  <Text className="text-green-500 text-xs font-bold">FREE Delivery</Text>
-                  <Text className="line-through text-gray-400 trext-xs ">₹40</Text>
-                  <View className="h-full w-0.5 bg-gray-300 text-xs"></View>
-                  <Text className="font-semibold text-xs">Delivery in 3 Hours
-                  </Text>
-                </>
-                  :
-                  <>
-                    <Text className="text-green-500 text-xs font-bold">₹40 Delivery</Text>
-                    <Text className="line-through text-gray-400 trext-xs ">FREE</Text>
-                    <View className="h-full w-0.5 bg-gray-300 text-xs"></View>
-                    <Text className="font-semibold text-xs">
-                      Delivery in 3 Hours
-                    </Text>
-                  </>
-              }
-            </View>
-          </View>
-        </View>
-
-        {/* Braker 😂*/}
-        <View className="h-1 bg-gray-200"></View>
-
-        {/* All offer section */}
-        <View className="p-3 flex items-center justify-between flex-row">
-          <Text className="font-[900] text-xs">All Offers & Coupons</Text>
-          <TouchableOpacity onPress={() => navigate.push("Page not available")}>
-            <AntDesign name="right" size={16} color="black" />
-          </TouchableOpacity>
         </View>
 
         {/* Braker 😂*/}
@@ -256,16 +177,13 @@ const ProductScreen = () => {
 
       {/* Bottom tab */}
       <View className="absolute bottom-0 w-full flex flex-row">
-        <TouchableOpacity onPress={() => addtocart(productDetail)} className="w-[50%] flex items-center justify-center p-3 bg-white">
+        <TouchableOpacity onPress={() => addtocart(productDetail)} className="w-full flex items-center justify-center p-3 bg-yellow-400">
           {
             isAdded ?
               <Text className="font-[900]">Added to cart</Text>
               :
               <Text className="font-[900]">Add to cart</Text>
           }
-        </TouchableOpacity>
-        <TouchableOpacity className="w-[50%] flex items-center justify-center p-3 bg-yellow-400">
-          <Text className="font-[900]">Buy now</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

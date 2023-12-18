@@ -11,7 +11,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from '@expo/vector-icons';
 
 
-const OrderDetail = ({ item, key, fetchOrders, type = 'adminOrder' }) => {
+const OrderDetail = ({ item,index, fetchOrders, type = 'adminOrder' }) => {
     const [status, setStatus] = useState(item.orderStatus);
     const [loading, setLoading] = useState(false);
 
@@ -39,7 +39,7 @@ const OrderDetail = ({ item, key, fetchOrders, type = 'adminOrder' }) => {
     }
 
     return (
-        <View key={key} className=" bg-white p-4 pb-2 w-full border-b-4  border-gray-300">
+        <View key={index} className=" bg-white p-4 pb-2 w-full border-b-4  border-gray-300">
             {/* Uppere name and mobile number container */}
             {
                 loading ?
@@ -72,12 +72,11 @@ const OrderDetail = ({ item, key, fetchOrders, type = 'adminOrder' }) => {
                         }
 
                         {/* Cart conatiner */}
-                        <View>
                             {
-                                item.products.length > 0 && item.products.map((cartItem, index) => {
+                                item.products.map((cartItem, index) => {
                                     return (
-                                        <View key={index}>
-                                            <View key={index} className="p-2 gap-1">
+                                        <View key={index} className='flex-1 border-2 border-gray-100 my-1'>
+                                            <View className="p-2 gap-1">
                                                 {/* Upper part */}
                                                 <View className="flex-1 flex-row space-x-2">
                                                     {/* Left side */}
@@ -96,9 +95,9 @@ const OrderDetail = ({ item, key, fetchOrders, type = 'adminOrder' }) => {
                                                     {/* Right side */}
                                                     <View className="space-y-2">
                                                         {/* Name of product */}
-                                                        <Text>
+                                                        <Text className="flex-wrap overflow-hidden">
                                                             {cartItem?.name.length > 40
-                                                                ? cartItem?.name.slice(0, 40) + "..."
+                                                                ? cartItem?.name.slice(0, 35) + "..."
                                                                 : cartItem?.name}
                                                         </Text>
 
@@ -133,7 +132,6 @@ const OrderDetail = ({ item, key, fetchOrders, type = 'adminOrder' }) => {
                                     );
                                 })
                             }
-                        </View>
 
 
                         {/* Order status */}

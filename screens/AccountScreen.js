@@ -17,20 +17,19 @@ import { Octicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 const AccountScreen = () => {
-  const navigation  = useNavigation();
+  const navigation = useNavigation();
   const [name, setName] = useState("");
   const getItem = async () => {
     const token = await AsyncStorage.getItem("authToken");
-    const data = JWT.decode(token,"heymynameismayank!");
+    const data = JWT.decode(token, "heymynameismayank!");
     setName(data.userId.name);
   };
 
   getItem();
 
-  const logout = async () =>
-  { 
-      await AsyncStorage.clear();
-      navigation.navigate("Login")
+  const logout = async () => {
+    await AsyncStorage.clear();
+    navigation.navigate("Login")
   }
 
   return (
@@ -51,11 +50,11 @@ const AccountScreen = () => {
         <View className="border-b-4 border-gray-300 pb-2">
           {/* Upper one */}
           <View className="flex-1 p-2 flex-row space-x-2">
-            <TouchableOpacity onPress={()=>{navigation.push("Orders")}} className="flex-1 flex-row items-center space-x-2 border border-gray-400 rounded-md p-2">
+            <TouchableOpacity onPress={() => { navigation.push("Orders") }} className="flex-1 flex-row items-center space-x-2 border border-gray-400 rounded-md p-2">
               <Feather name="box" size={22} color="blue" />
               <Text className="font-semibold">Orders</Text>
             </TouchableOpacity>
-            <TouchableOpacity className="flex-1 flex-row items-center space-x-2 border border-gray-400 rounded-md p-2" onPress={()=>navigation.push("Page not available")}>
+            <TouchableOpacity className="flex-1 flex-row items-center space-x-2 border border-gray-400 rounded-md p-2" onPress={() => navigation.push("Page not available")}>
               <AntDesign name="hearto" size={22} color="blue" />
               <Text className="font-semibold">Wishlist</Text>
             </TouchableOpacity>
@@ -63,7 +62,7 @@ const AccountScreen = () => {
 
           {/* Down One */}
           <View className="flex-1 p-2 flex-row space-x-2">
-            <TouchableOpacity className="flex-1 flex-row items-center space-x-2 border border-gray-400 rounded-md p-2" onPress={()=>navigation.push("Page not available")}>
+            <TouchableOpacity className="flex-1 flex-row items-center space-x-2 border border-gray-400 rounded-md p-2" onPress={() => navigation.push("Page not available")}>
               <AntDesign name="gift" size={22} color="blue" />
               <Text className="font-semibold">Coupons</Text>
             </TouchableOpacity>
@@ -83,7 +82,7 @@ const AccountScreen = () => {
           <View className="space-y-5 pb-2 pt-2">
 
             {/* OPtion-2 */}
-            <TouchableOpacity className="flex flex-row items-center justify-between">
+            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={() => navigation.push("Page not available")}>
               <View className="space-x-2 flex flex-row items-center">
                 <AntDesign name="user" size={22} color="blue" />
                 <Text>Edit Profile</Text>
@@ -92,7 +91,7 @@ const AccountScreen = () => {
             </TouchableOpacity>
 
             {/* OPtion-3 */}
-            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={()=>navigation.push("Page not available")}>
+            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={() => navigation.push("Page not available")}>
               <View className="space-x-2 flex flex-row items-center">
                 <AntDesign name="wallet" size={20} color="blue" />
                 <Text>Saved Cards & Wallet</Text>
@@ -101,7 +100,7 @@ const AccountScreen = () => {
             </TouchableOpacity>
 
             {/* OPtion-4 */}
-            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={()=>navigation.push("Page not available")}>
+            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={() => navigation.push("Page not available")}>
               <View className="space-x-2 flex flex-row items-center">
                 <EvilIcons name="location" size={22} color="blue" />
                 <Text>Saved Addresses</Text>
@@ -110,7 +109,7 @@ const AccountScreen = () => {
             </TouchableOpacity>
 
             {/* OPtion-5 */}
-            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={()=>navigation.push("Page not available")}>
+            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={() => navigation.push("Page not available")}>
               <View className="space-x-2 flex flex-row items-center">
                 <Ionicons name="language" size={22} color="blue" />
                 <Text>Saved Language</Text>
@@ -119,7 +118,7 @@ const AccountScreen = () => {
             </TouchableOpacity>
 
             {/* OPtion-6 */}
-            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={()=>navigation.push("Page not available")}>
+            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={() => navigation.push("Page not available")}>
               <View className="space-x-2 flex flex-row items-center">
                 <Ionicons name="notifications-outline" size={22} color="blue" />
                 <Text>Notification Settings</Text>
@@ -137,7 +136,7 @@ const AccountScreen = () => {
           {/* OPtion section */}
           <View className="space-y-5 pb-2 pt-2">
             {/* Option-1 */}
-            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={()=>navigation.push("Page not available")}>
+            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={() => navigation.push("Page not available")}>
               <View className="space-x-2 flex flex-row items-center">
                 <Ionicons name="newspaper-outline" size={22} color="blue" />
                 <Text>Terms, Policies and Licenses</Text>
@@ -146,7 +145,7 @@ const AccountScreen = () => {
             </TouchableOpacity>
 
             {/* OPtion-2 */}
-            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={()=>navigation.push("Page not available")}>
+            <TouchableOpacity className="flex flex-row items-center justify-between" onPress={() => navigation.push("Page not available")}>
               <View className="space-x-2 flex flex-row items-center">
                 <Octicons name="question" size={22} color="blue" />
                 <Text>Browse FAQs</Text>
@@ -157,12 +156,12 @@ const AccountScreen = () => {
         </View>
 
       </ScrollView>
-        {/* Logout section */}
-        <View className="items-center justify-center flex bg-gray-200 p-4 bottom-0 absolute w-full">
-          <TouchableOpacity className="bg-white w-[100%] items-center p-2 rounded-md border border-gray-300" onPress={()=>logout()}>
-            <Text className="text-blue-700 font-bold">Log Out</Text>
-          </TouchableOpacity>
-        </View>
+      {/* Logout section */}
+      <View className="items-center justify-center flex bg-gray-200 p-4 bottom-0 absolute w-full">
+        <TouchableOpacity className="bg-white w-[100%] items-center p-2 rounded-md border border-gray-300" onPress={() => logout()}>
+          <Text className="text-blue-700 font-bold">Log Out</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };

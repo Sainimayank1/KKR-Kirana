@@ -12,7 +12,7 @@ const AddToCart = async (item) => {
     let cart = await AsyncStorage.getItem("cart");
     if (!cart) {
         let newCart = [];
-        newCart.push(item);
+        newCart.push({ ...item, quantity: 1 });
         await AsyncStorage.setItem("cart", JSON.stringify(newCart));
         return;
     }

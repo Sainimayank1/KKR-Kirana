@@ -53,11 +53,6 @@ const CategoryScreen = () => {
         setLoading(false)
     }
 
-    const updateHandler = async () =>
-    {
-
-    }
-
 
     return (
         <SafeAreaView className="flex-1 relative">
@@ -104,13 +99,13 @@ const CategoryScreen = () => {
                                                     ],
                                                     { cancelable: false }
                                                 )
-                                            }} className="bg-red-400 w-[49%] flex items-center justify-center p-1">
+                                            }} className="bg-red-400 w-[49%] flex-1 flex items-center justify-center p-1">
                                                 <Text className="text-white text-lg font-bold">Delete</Text>
                                             </TouchableOpacity>
 
-                                            <TouchableOpacity onPress={updateHandler} className="bg-green-400 w-[49%] flex items-center justify-center p-1">
+                                            {/* <TouchableOpacity onPress={updateHandler} className="bg-green-400 w-[49%] flex items-center justify-center p-1">
                                                 <Text className="text-white text-lg font-bold">Update</Text>
-                                            </TouchableOpacity>
+                                            </TouchableOpacity> */}
                                         </View>
                                     </View>
                                 })

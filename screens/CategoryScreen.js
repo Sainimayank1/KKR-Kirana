@@ -17,11 +17,11 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { FetchCategoryItems } from "../api";
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const CategoryScreen = () => {
   const [Catgory, setCategory] = useState({ productsCatgory: [], productsCatgoryLoader: false });
-
+  const navigate = useNavigation();
 
   useFocusEffect(
     useCallback(() => {
@@ -41,63 +41,6 @@ const CategoryScreen = () => {
     }
     // setCategory({ ...Catgory, productsCatgoryLoader: false });
   }
-
-  const RecentlyViewStore = [
-    {
-      uri: require("../assests/image/Sponsered/BoultEar.webp"),
-      name: "Boult Audio Z40 with Zen ENC Mic, 60H Battery Life, Low Latency Gaming, Made In India, 5.3 Bluetooth Headset",
-      keyFeature: "Brown, In the Ear",
-      category: "Earphone",
-      originalPrice: "5,999",
-      price: "1,499",
-      index: 1,
-    },
-    {
-      uri: require("../assests/image/Sponsered/BoatWatch.webp"),
-      name: "boAt Storm call 1.69 inch HD display with bluetooth calling and 550 nits brightness Smartwatch",
-      keyFeature: "Amoled + Calling",
-      category: "Smart Watch",
-      originalPrice: "10,999",
-      price: "2,999",
-      index: 2,
-    },
-    {
-      uri: require("../assests/image/ItemsBackInStock/mobile.webp"),
-      name: "realme Narzo 30 Pro 5G",
-      keyFeature: "(Blade Silver, 128 GB)  (8 GB RAM)",
-      category: "Mobile",
-      originalPrice: "21,999",
-      price: "20,890",
-      index: 2,
-    },
-    {
-      uri: require("../assests/image/Sponsered/realmeEarphone.webp"),
-      name: "realme Buds Air 3 Neo with up to 30 hours Playback ",
-      keyFeature: " Charge Bluetooth Headset",
-      category: "True Wireless",
-      originalPrice: "3,999",
-      price: "1,199",
-      index: 4,
-    },
-    {
-      uri: require("../assests/image/Sponsered/OppoEarphone.webp"),
-      name: "OPPO Enco Buds 2 with 28 hours Battery life",
-      keyFeature: "Deep Noise Cancellation",
-      category: "Ear Buds",
-      originalPrice: "5,999",
-      price: "1,699",
-      index: 5,
-    },
-    {
-      uri: require("../assests/image/Sponsered/FireBoultWatch.webp"),
-      name: "Fire-Boltt Starlight 2.01'' HD Display Smart Watch Bluetooth Callin",
-      keyFeature: "Stainless Steel Luxury Smartwatch",
-      category: "Smart Watch",
-      originalPrice: "14,999",
-      price: "2,199",
-      index: 6,
-    },
-  ];
   return (
     <SafeAreaView className="h-full">
       <StatusBar backgroundColor={colors.blue} style="light"></StatusBar>
@@ -111,11 +54,11 @@ const CategoryScreen = () => {
 
         {/* Right side */}
         <View className="flex flex-row space-x-5">
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>navigate.push("Page not available")}>
             <FontAwesome name="search" size={18} color="white" />
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>navigate.push("Page not available")}>
             <FontAwesome name="microphone" size={18} color="white" />
           </TouchableOpacity>
         </View>
@@ -141,6 +84,7 @@ const CategoryScreen = () => {
                     key={index}
                     className="items-center justify-center "
                     style={{ height: wp(28), width: wp(25) }}
+                    onPress={()=>navigate.push("Products Screen",{category:item})}
                   >
                     <Image
                       className="h-[60%] w-[70%] rounded-full bg-blue-100 object-contain "

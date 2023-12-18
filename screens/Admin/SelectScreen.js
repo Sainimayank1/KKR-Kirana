@@ -44,11 +44,11 @@ const SelectScreen = () => {
                 {/* select container */}
                 <Text className="text-center text-2xl mb-10"> Select mode</Text>
                 <View className="w-full flex flex-row items-center justify-around">
-                    <TouchableOpacity onPress={()=>setSelected(selected == "admin" ? "user" : "admin")} className={selected == "admin" ? "flex flex-row items-center justify-around w-[40%] rounded-xl p-4 border-2 border-blue-100 " : "flex flex-row items-center justify-around w-[40%] rounded-xl p-4 border-2 border-gray-300"}>
-                            <Text className={selected == "admin" ? "text-xl font-bold text-blue-400 " : "text-xl text-gray-300"}>Admin</Text>
+                    <TouchableOpacity onPress={()=>setSelected(selected == "admin" ? "user" : "admin")} className={selected == "admin" ? "flex flex-row items-center justify-around w-[40%] rounded-xl p-4 border-2 border-blue-100 bg-blue-400" : "flex flex-row items-center justify-around w-[40%] rounded-xl p-4 border-2 border-blue-300"}>
+                            <Text className={selected == "admin" ? "text-xl font-bold text-white " : "text-xl text-blue-300"}>Admin</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>setSelected(selected == "admin" ? "user" : "admin")} className={selected == "user" ? "flex flex-row items-center justify-around w-[40%] rounded-xl p-4 border-2 border-blue-100 " : "flex flex-row items-center justify-around w-[40%] rounded-xl p-4 border-2 border-gray-300"}>
-                            <Text className={selected == "user" ? "text-xl font-bold text-blue-400 " : "text-xl text-gray-300"}>User</Text>
+                    <TouchableOpacity onPress={()=>setSelected(selected == "admin" ? "user" : "admin")} className={selected == "user" ? "flex flex-row items-center justify-around w-[40%] rounded-xl p-4 border-2 border-blue-100 bg-blue-400" : "flex flex-row items-center justify-around w-[40%] rounded-xl p-4 border-2 border-blue-300"}>
+                            <Text className={selected == "user" ? "text-xl font-bold text-white" : "text-xl text-blue-300"}>User</Text>
                     </TouchableOpacity>
                 </View>
 

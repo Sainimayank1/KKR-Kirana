@@ -4,13 +4,8 @@
     "slug": "KKR-Kirana",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/logo.png",
+    "icon": "./assests/logo.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/logo-no-background.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -46,7 +41,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assests/logo.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
@@ -59,7 +54,7 @@
       "package": "com.myank4455.KKRKirana"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/logo.png"
     },
     "extra": {
       "eas": {

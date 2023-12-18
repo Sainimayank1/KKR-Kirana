@@ -24,11 +24,6 @@ const SearchScreen = () => {
     const [Result, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-
-
-    }, [search])
-
     const getSearchData = async () => {
         setLoading(true);
         const data = await fetchSearchData(search)
@@ -47,7 +42,8 @@ const SearchScreen = () => {
                 ></TextInput>
 
                 <TouchableOpacity
-                    className="rounded-full p-3 m-1 bg-neutral-500"
+                    className="rounded-full p-3 m-1 "
+                    style={{backgroundColor:colors.blue}}
                 >
                     <Text className="text-white">Search</Text>
                 </TouchableOpacity>

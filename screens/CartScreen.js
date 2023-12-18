@@ -63,11 +63,12 @@ const CartScreen = () => {
       </View>
 
       {/* Middle Part */}
-      <ScrollView refreshControl={<RefreshControl onRefresh={() => { fetchCartData() }} refreshing={loading} />}>
+      <ScrollView className="mb-20" refreshControl={<RefreshControl onRefresh={() => { fetchCartData() }} refreshing={loading} />}>
+        <View>
         {cart.length > 0 ? cart.map((item, index) => {
-          const original = parseInt(item?.originalPrice);
-          const price = parseInt(item?.price);
-          const discount = Math.round(((original - price) / original) * 100);
+          let original =  parseInt(item?.originalPrice);
+          let price =  parseInt(item?.price);
+          let discount = Math.round(((original - price) / original) * 100);
           return (
             <View className='border-b-4 border-gray-200' key={index}>
               <TouchableOpacity key={index} className="p-2 gap-1" onPress={() => navigate.push("Product Screen", { productDetail: item })}>
@@ -170,6 +171,7 @@ const CartScreen = () => {
               <Text className="text-white font-bold">Continue Shopping</Text>
             </TouchableOpacity>
           </View>}
+          </View>
       </ScrollView>
 
       {/* Bottom Checkout sidebar */}

@@ -106,7 +106,7 @@ const OrederSummaryScreen = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-white relative">
-      <ScrollView className="-mt-10">
+      <ScrollView className="mb-20">
         {state.uri != "" && (
           <View className="flex items-center justify-center relative">
             <Image
@@ -147,7 +147,7 @@ const OrederSummaryScreen = () => {
                       {/* Right side */}
                       <View className="space-y-2">
                         {/* Name of product */}
-                        <Text>
+                        <Text className="flex-wrap">
                           {item?.name.length > 40
                             ? item?.name.slice(0, 40) + "..."
                             : item?.name}
@@ -155,7 +155,9 @@ const OrederSummaryScreen = () => {
 
                         {/* Key feature */}
                         {item?.keyFeature && (
-                          <Text className="text-gray-400">{item?.keyFeature}</Text>
+                          <Text className="text-gray-400 flex-wrap"> {item?.keyFeature.length > 40
+                            ? item?.keyFeature.slice(0, 40) + "..."
+                            : item?.keyFeature}</Text>
                         )}
 
                         {/* Rating section */}
@@ -202,20 +204,6 @@ const OrederSummaryScreen = () => {
                       </View>
                     </View>
                   </TouchableOpacity>
-
-                  {/* Bottom bar */}
-                  <View className="flex-1 flex-row">
-                    <Pressable className="flex-1 flex-row p-2 border-2 gap-1 border-gray-100 items-center justify-center" onPress={async () => { await DeleteFromCart(item), await fetchCartData() }}>
-                      <Ionicons name="remove" size={14} color="gray" />
-                    </Pressable>
-                    <Pressable className="flex-1 flex-row p-2 border-2 gap-1 border-gray-100 items-center justify-center" onPress={async () => { await AddToCart(item), await fetchCartData() }}>
-                      <Ionicons name="add" size={14} color="gray" />
-                    </Pressable>
-                    <Pressable className="flex-1 flex-row p-2 border-2 gap-1 border-gray-100 items-center justify-center" onPress={async () => { await RemoveFromCart(item), await fetchCartData() }}>
-                      <AntDesign name="delete" size={14} color="gray" />
-                      {/* <Text className="text-[16px] text-gray-600 ">Remove</Text> */}
-                    </Pressable>
-                  </View>
                 </View>
               );
             })

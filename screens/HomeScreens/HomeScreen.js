@@ -78,7 +78,7 @@ const HomeScreen = () => {
       <ScrollView className='bg-white'>
 
         {/* Search Coantiner */}
-        <TouchableOpacity className="flex-row items-center justify-between px-2 py-1 space-x-5" onPress={()=>navigate.push("SearchScreen")}>
+        <TouchableOpacity className="flex-row items-center justify-between px-2 py-1 space-x-5" onPress={()=>navigate.push("Page not available")}>
           {/*Search Area*/}
           <View className="flex-1 flex flex-row space-x-2 items-center justify-between border border-gray-300 bg-neutral-100 p-1 rounded-md">
             <View className="flex flex-row space-x-2 items-center">

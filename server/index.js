@@ -190,10 +190,14 @@ app.get("/fetchAllCategory", async (req, res) => {
 
 // Delete category item using id
 app.post("/deleteCategoryItem", async (req, res) => {
-    const data = req.body;
+    const _id = req.body;
     try {
-        const isDelete = await Category.deleteOne(data);
-        if (isDelete)
+        const data = await Category.find(_id);
+        const {name} = data[0];
+        const isFind = Product.find({category:name});
+        console.log(isFind);
+        // const isDelete = await Category.deleteOne(_id);
+        // if (isDelete)
             return res.status(200).json({ msg: "Item Delete successfully" , data:isDelete})
     } catch (error) {
         return res.status(500).json({ msg: error })
